@@ -4,30 +4,48 @@
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
-          "samples": []
+          "samples": [
+            "cancelar",
+            "pare",
+            "sair"
+          ]
         },
         {
           "name": "AMAZON.HelpIntent",
-          "samples": []
+          "samples": [
+            "ajuda",
+            "o que você pode fazer?",
+            "como usar"
+          ]
         },
         {
           "name": "AMAZON.StopIntent",
-          "samples": []
+          "samples": [
+            "parar",
+            "interromper",
+            "parar agora"
+          ]
         },
         {
           "name": "AMAZON.NavigateHomeIntent",
-          "samples": []
+          "samples": [
+            "ir para início",
+            "voltar para casa"
+          ]
         },
         {
           "slots": [
             {
               "name": "query",
-              "type": "AMAZON.Person"
+              "type": "AMAZON.SearchQuery"
             }
           ],
           "name": "GptQueryIntent",
           "samples": [
-            "{query}"
+            "{query}",
+            "minha pergunta é {query}",
+            "gostaria de saber {query}",
+            "poderia me dizer {query}"
           ]
         }
       ],
