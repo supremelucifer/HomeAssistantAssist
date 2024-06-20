@@ -1,6 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
+      "invocationName": "Home",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -34,13 +35,13 @@
           ]
         },
         {
+          "name": "GptQueryIntent",
           "slots": [
             {
               "name": "query",
               "type": "AMAZON.SearchQuery"
             }
           ],
-          "name": "GptQueryIntent",
           "samples": [
             "{query}",
             "minha pergunta é {query}",
@@ -49,8 +50,7 @@
           ]
         }
       ],
-      "types": [],
-      "invocationName": "modo avançado"
+      "types": []
     }
   }
 }

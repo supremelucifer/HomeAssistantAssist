@@ -1,10 +1,8 @@
 import os
 import logging
 import ask_sdk_core.utils as ask_utils
-import asyncio
 import json
-import websockets
-import uuid
+import requests
 
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
@@ -15,7 +13,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 # Configurações do Home Assistant
-home_assistant_url = "wss://YOUR-HOME-ASSISTANT-URL/api/websocket"
+home_assistant_url = "https://YOUR-HOME-ASSISTANT-URL/api/conversation/process"
 home_assistant_token = "YOUR-HOME-ASSISTANT-TOKEN"
 
 # Variável global para armazenar o conversation_id
@@ -37,48 +35,32 @@ class GptQueryIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         query = handler_input.request_envelope.request.intent.slots["query"].value
-        response = asyncio.run(process_conversation(query))
+        response = process_conversation(query)
         return handler_input.response_builder.speak(response).ask("Você pode fazer uma nova pergunta ou falar: sair.").response
 
-async def process_conversation(query):
+def process_conversation(query):
     global conversation_id
     try:
-        async with websockets.connect(home_assistant_url) as websocket:
-            # Autenticação
-            auth_message = json.dumps({
-                "type": "auth",
-                "access_token": home_assistant_token
-            })
-            await websocket.send(auth_message)
-            
-            response = await websocket.recv()
-            response_data = json.loads(response)
-            if response_data.get("type") != "auth_ok":
-                return "Erro ao autenticar no Home Assistant."
+        headers = {
+            "Authorization": f"Bearer {home_assistant_token}",
+            "Content-Type": "application/json",
+        }
+        data = {
+            "text": query,
+            "language": "pt-BR"
+        }
+        if conversation_id:
+            data["conversation_id"] = conversation_id
 
-            # Envia a mensagem de processamento de conversação
-            conversation_message = {
-                "type": "conversation/process",
-                "text": query,
-                "language": "pt-BR"
-            }
-            if conversation_id:
-                conversation_message["conversation_id"] = conversation_id
+        response = requests.post(home_assistant_url, headers=headers, json=data)
+        response_data = response.json()
 
-            await websocket.send(json.dumps(conversation_message))
-
-            while True:
-                response = await websocket.recv()
-                response_data = json.loads(response)
-
-                if response_data.get("type") == "result" and response_data.get("success", False):
-                    conversation_response = response_data["result"]
-                    conversation_id = conversation_response.get("conversation_id", conversation_id)
-                    speech = conversation_response["response"]["speech"]["plain"]["speech"]
-                    return speech
-
-                if response_data.get("type") == "error":
-                    return f"Erro ao processar a solicitação: {response_data.get('message')}"
+        if response.status_code == 200 and "response" in response_data:
+            conversation_id = response_data.get("conversation_id", conversation_id)
+            speech = response_data["response"]["speech"]["plain"]["speech"]
+            return speech
+        else:
+            return "Erro ao processar a solicitação."
 
     except Exception as e:
         return f"Erro ao gerar resposta: {str(e)}"

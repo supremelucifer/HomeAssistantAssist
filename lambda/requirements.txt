@@ -1,2 +1,2 @@
-ask-sdk-core==1.11.0
-websockets==10.1
+ask-sdk-core==1.22.0
+requests==2.26.0
