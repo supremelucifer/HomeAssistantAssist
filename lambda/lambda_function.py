@@ -57,7 +57,13 @@ def process_conversation(query):
 
         if response.status_code == 200 and "response" in response_data:
             conversation_id = response_data.get("conversation_id", conversation_id)
-            speech = response_data["response"]["speech"]["plain"]["speech"]
+            response_type = response_data["response"]["response_type"]
+            if response_type == "action_done" or response_type == "query_answer":
+                speech = response_data["response"]["speech"]["plain"]["speech"]
+            elif response_type == "error":
+                speech = response_data["response"]["speech"]["plain"]["speech"]
+            else:
+                speech = "Não consegui processar sua solicitação."
             return speech
         else:
             return "Erro ao processar a solicitação."
