@@ -1,0 +1,2 @@
+home_assistant_url=https://YOUR-HOME-ASSISTANT-URL/api/conversation/process
+home_assistant_token=YOUR-HOME-ASSISTANT-TOKEN

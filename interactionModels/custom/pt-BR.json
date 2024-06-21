@@ -1,53 +1,39 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "smart home",
+      "invocationName": "modo casa",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
-          "samples": [
-            "cancelar",
-            "pare",
-            "sair"
-          ]
+          "samples": []
         },
         {
           "name": "AMAZON.HelpIntent",
-          "samples": [
-            "ajuda",
-            "o que você pode fazer?",
-            "como usar"
-          ]
+          "samples": []
         },
         {
           "name": "AMAZON.StopIntent",
-          "samples": [
-            "parar",
-            "interromper",
-            "parar agora"
-          ]
+          "samples": []
         },
         {
           "name": "AMAZON.NavigateHomeIntent",
-          "samples": [
-            "ir para início",
-            "voltar para casa"
-          ]
+          "samples": []
         },
         {
           "name": "GptQueryIntent",
           "slots": [
             {
               "name": "query",
-              "type": "AMAZON.SearchQuery"
+              "type": "AMAZON.Person"
             }
           ],
           "samples": [
-            "{query}",
-            "minha pergunta é {query}",
-            "gostaria de saber {query}",
-            "poderia me dizer {query}"
+            "{query}"
           ]
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
         }
       ],
       "types": []

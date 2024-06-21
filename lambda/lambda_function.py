@@ -12,9 +12,20 @@ from ask_sdk_model import Response
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+# Função para carregar configurações do arquivo
+def load_config():
+    config = {}
+    with open("config.txt") as f:
+        for line in f:
+            name, value = line.strip().split('=')
+            config[name] = value
+    return config
+
+config = load_config()
+
 # Configurações do Home Assistant
-home_assistant_url = "https://YOUR-HOME-ASSISTANT-URL/api/conversation/process"
-home_assistant_token = "YOUR-HOME-ASSISTANT-TOKEN"
+home_assistant_url = config.get("home_assistant_url")
+home_assistant_token = config.get("home_assistant_token")
 
 # Variável global para armazenar o conversation_id
 conversation_id = None
