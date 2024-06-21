@@ -15,17 +15,29 @@ logger.setLevel(logging.INFO)
 # Função para carregar configurações do arquivo
 def load_config():
     config = {}
-    with open("config.txt") as f:
-        for line in f:
-            name, value = line.strip().split('=')
-            config[name] = value
+    try:
+        with open("/mnt/data/config.txt") as f:  # Usar o caminho absoluto para garantir que o arquivo seja encontrado
+            for line in f:
+                name, value = line.strip().split('=')
+                config[name] = value
+    except Exception as e:
+        log_to_file(f"Erro ao carregar o arquivo de configuração: {str(e)}")
     return config
+
+# Função para salvar logs em um arquivo
+def log_to_file(message):
+    with open("lambda_logs.txt", "a") as log_file:
+        log_file.write(message + "\n")
 
 config = load_config()
 
 # Configurações do Home Assistant
 home_assistant_url = config.get("home_assistant_url")
 home_assistant_token = config.get("home_assistant_token")
+
+# Verificação de configuração
+if not home_assistant_url or not home_assistant_token:
+    raise ValueError("home_assistant_url ou home_assistant_token não configurados corretamente")
 
 # Variável global para armazenar o conversation_id
 conversation_id = None
@@ -46,7 +58,9 @@ class GptQueryIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         query = handler_input.request_envelope.request.intent.slots["query"].value
+        log_to_file(f"Query received: {query}")
         response = process_conversation(query)
+        log_to_file(f"Response generated: {response}")
         return handler_input.response_builder.speak(response).ask("Você pode fazer uma nova pergunta ou falar: sair.").response
 
 def process_conversation(query):
@@ -63,7 +77,11 @@ def process_conversation(query):
         if conversation_id:
             data["conversation_id"] = conversation_id
 
+        log_to_file(f"Requesting Home Assistant with data: {data}")
         response = requests.post(home_assistant_url, headers=headers, json=data)
+        log_to_file(f"Home Assistant response status: {response.status_code}")
+        log_to_file(f"Home Assistant response data: {response.text}")
+        
         response_data = response.json()
 
         if response.status_code == 200 and "response" in response_data:
@@ -77,9 +95,12 @@ def process_conversation(query):
                 speech = "Não consegui processar sua solicitação."
             return speech
         else:
-            return "Erro ao processar a solicitação."
+            error_message = response_data.get("message", "Erro desconhecido")
+            log_to_file(f"Erro ao processar a solicitação: {error_message}")
+            return "Desculpe, não consegui entender seu pedido."
 
     except Exception as e:
+        log_to_file(f"Erro ao gerar resposta: {str(e)}")
         return f"Erro ao gerar resposta: {str(e)}"
 
 class HelpIntentHandler(AbstractRequestHandler):
@@ -110,7 +131,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
         return True
 
     def handle(self, handler_input, exception):
-        logger.error(exception, exc_info=True)
+        log_to_file(f"Exception: {exception}")
         speak_output = "Desculpe, não consegui processar sua solicitação."
         return handler_input.response_builder.speak(speak_output).ask(speak_output).response
 
