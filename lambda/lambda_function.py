@@ -68,7 +68,7 @@ def process_conversation(query):
             "Content-Type": "application/json",
         }
         data = {
-            "text": query,
+            "text": replace_words(query),
             "language": "pt-BR",
             "agent_id": home_assistant_agent_id
         }
@@ -101,6 +101,10 @@ def process_conversation(query):
     except Exception as e:
         logger.error(f"Erro ao gerar resposta: {str(e)}", exc_info=True)
         return f"Erro ao gerar resposta: {str(e)}"
+
+def replace_words(query):
+    query = query.replace('4.º','quarto')
+    return query
 
 class HelpIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
