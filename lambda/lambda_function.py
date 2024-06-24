@@ -34,8 +34,8 @@ home_assistant_agent_id = config.get("home_assistant_agent_id")
 alexa_speak_output = config.get("alexa_speak_output")
 
 # Verificação de configuração
-if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id:
-    raise ValueError("home_assistant_url, home_assistant_token ou home_assistant_agent_id não configurados corretamente")
+if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not alexa_speak_output:
+    raise ValueError("alexa_speak_output, home_assistant_url, home_assistant_token ou home_assistant_agent_id não configurados corretamente")
 
 # Variável global para armazenar o conversation_id
 conversation_id = None
