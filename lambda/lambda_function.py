@@ -31,6 +31,7 @@ config = load_config()
 home_assistant_url = config.get("home_assistant_url")
 home_assistant_token = config.get("home_assistant_token")
 home_assistant_agent_id = config.get("home_assistant_agent_id")
+alexa_speak_output = config.get("alexa_speak_output")
 
 # Verificação de configuração
 if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id:
@@ -46,8 +47,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         global conversation_id
         conversation_id = None  # Reseta o conversation_id para uma nova sessão
-        speak_output = "Bem vindo ao assistente de voz do Home Assistant! Qual a sua pergunta?"
-        return handler_input.response_builder.speak(speak_output).ask(speak_output).response
+        return handler_input.response_builder.speak(alexa_speak_output).ask(alexa_speak_output).response
 
 class GptQueryIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
