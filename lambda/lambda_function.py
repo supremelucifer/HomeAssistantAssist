@@ -31,10 +31,11 @@ config = load_config()
 home_assistant_url = config.get("home_assistant_url")
 home_assistant_token = config.get("home_assistant_token")
 home_assistant_agent_id = config.get("home_assistant_agent_id")
+alexa_speak_output = config.get("alexa_speak_output")
 
 # Verificação de configuração
-if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id:
-    raise ValueError("home_assistant_url, home_assistant_token ou home_assistant_agent_id não configurados corretamente")
+if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not alexa_speak_output:
+    raise ValueError("alexa_speak_output, home_assistant_url, home_assistant_token ou home_assistant_agent_id não configurados corretamente")
 
 # Variável global para armazenar o conversation_id
 conversation_id = None
@@ -46,8 +47,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         global conversation_id
         conversation_id = None  # Reseta o conversation_id para uma nova sessão
-        speak_output = "Bem vindo ao assistente de voz do Home Assistant! Qual a sua pergunta?"
-        return handler_input.response_builder.speak(speak_output).ask(speak_output).response
+        return handler_input.response_builder.speak(alexa_speak_output).ask(alexa_speak_output).response
 
 class GptQueryIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
@@ -68,7 +68,7 @@ def process_conversation(query):
             "Content-Type": "application/json",
         }
         data = {
-            "text": query,
+            "text": replace_words(query),
             "language": "pt-BR",
             "agent_id": home_assistant_agent_id
         }
@@ -101,6 +101,10 @@ def process_conversation(query):
     except Exception as e:
         logger.error(f"Erro ao gerar resposta: {str(e)}", exc_info=True)
         return f"Erro ao gerar resposta: {str(e)}"
+
+def replace_words(query):
+    query = query.replace('4.º','quarto')
+    return query
 
 class HelpIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
