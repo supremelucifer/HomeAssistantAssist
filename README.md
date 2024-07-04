@@ -1,3 +1,59 @@
+# Alexa Skill Model to integrate Home Assistant via Assist Conversation API
+Use Home Assistant Assist Conversation in Alexa 😊
+
+## Instructions
+
+### Home Assistant Setup
+- Create/Activate a Home Assistant API for your user and obtain a long-term access token.
+
+### Creating the Alexa Skill
+1. Create an Alexa-hosted (Python) Skill in the Alexa Developer Console:
+   - **Name your Skill**: Choose a name of your preference (e.g., HomeAssist)
+   - **Choose a primary locale**: Portuguese (BR)
+   - **Type of experience**: Other > Custom > Alexa-hosted (Python)
+   - **Hosting region**: You can leave the default (US East (N. Virginia))
+   - **Templates**: Click on Import Skill
+   - **Insert the address**: [https://github.com/rodrigoscoelho/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git](https://github.com/rodrigoscoelho/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git)
+
+2. Go to the "Code" tab
+3. Enter your information in the `config.txt` file:
+   - Open the `config.txt` file in the root directory of the project (/Skill Code/lambda/).
+   - Insert the following information:
+     ```txt
+     home_assistant_url=https://YOUR-HOME-ASSISTANT-URL:8123/api/conversation/process
+     home_assistant_token=YOUR-HOME-ASSISTANT-TOKEN
+     home_assistant_agent_id=YOUR-AGENT-ID
+     ```
+   - **home_assistant_url**: Your Home Assistant conversation API URL (including the default port 8123).
+   - **home_assistant_token**: Your Home Assistant's long-term access token.
+   - **home_assistant_agent_id**: The conversation agent ID configured in your Home Assistant.
+
+4. Save the changes.
+
+### Configuring the Invocation Name
+- The default invocation name configured in the code is "home mode".
+- To change the invocation name:
+  1. Go to the "Build" tab in the Alexa Developer Console.
+  2. Click on "Invocations" and then on "Skill Invocation Name".
+  3. Enter the new desired invocation name and save the changes.
+  4. Rebuild the model (Build skill).
+
+### Obtaining the `home_assistant_agent_id`
+- The `agent_id` can be found in the debug assistant for your target conversation agent:
+  1. Go to **Settings** > **Voice assistants** > **OpenAI** (or the name you gave to the OpenAI assistant) > three dots menu > **Debug**.
+  2. The `agent_id` will be displayed in the debug section.
+  - See the following image for reference:
+    ![Debug Assistant](https://community-assets.home-assistant.io/original/4X/5/9/c/59cad339a22cb65c63996f58e28d412f73a6d40f.png)
+
+### Deploying the Skill
+1. Build the Model and Deploy the Code in the "Deploy" tab.
+2. Test the Skill in the Alexa Developer Console to ensure it's working correctly.
+
+### Good luck!
+Now you can use your Alexa Skill to integrate and interact with Home Assistant via the Assist Conversation API.
+If you liked it, remember to send a "Thank you" to the developer.
+
+
 # Modelo de Skill Alexa para integrar o Home Assistant via Assist Conversation API
 Use o Home Assistant Assist Conversation na Alexa 😊
 
