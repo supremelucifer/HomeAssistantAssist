@@ -59,9 +59,18 @@ class GptQueryIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("GptQueryIntent")(handler_input)
 
     def handle(self, handler_input):
+        # Obter o deviceId do dispositivo que executou a skill
+        device_id = handler_input.request_envelope.context.system.device.device_id
+        
+        # Adicionar o prefixo com o nome do dispositivo ao comando
         query = handler_input.request_envelope.request.intent.slots["query"].value
-        logger.info(f"Query received: {query}")
-        response = process_conversation(query)
+        logger.info(f"Query received from: {query}")
+        logger.info(f"Device ID: {device_id}")
+
+        # Envia o device_ID para o Home Assistant, no Home_Assistant você pode acessar esse ID único do dispositivo echo a um rótulo
+        # e pedir a IA (no prompt de inicialização) para identificar a área do dispositivo quando uma área não for informada!
+        response = process_conversation(f"{query}. device_id: {device_id}")
+        
         logger.info(f"Response generated: {response}")
         return handler_input.response_builder.speak(response).ask(alexa_speak_question).response
 
