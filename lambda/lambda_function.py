@@ -159,6 +159,13 @@ class SessionEndedRequestHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         return handler_input.response_builder.response
 
+class CloseSkillIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        return ask_utils.is_intent_name("CloseSkillIntent")(handler_input)
+
+    def handle(self, handler_input):
+        return handler_input.response_builder.speak(alexa_speak_exit).set_should_end_session(True).response
+
 class CatchAllExceptionHandler(AbstractExceptionHandler):
     def can_handle(self, handler_input, exception):
         return True
@@ -174,6 +181,7 @@ sb.add_request_handler(GptQueryIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
+sb.add_request_handler(CloseSkillIntentHandler())
 sb.add_exception_handler(CatchAllExceptionHandler())
 
 lambda_handler = sb.lambda_handler()

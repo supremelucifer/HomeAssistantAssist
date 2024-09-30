@@ -34,6 +34,17 @@
         {
           "name": "AMAZON.FallbackIntent",
           "samples": []
+        },
+        {
+          "name": "CloseSkillIntent",
+          "slots": [],
+          "samples": [
+            "obrigado",
+            "valeu",
+            "tchau",
+            "finalizar",
+            "encerrar"
+          ]
         }
       ],
       "types": []
