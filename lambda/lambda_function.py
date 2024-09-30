@@ -9,6 +9,8 @@ from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
 from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_model import Response
+from ask_sdk_core.attributes_manager import AttributesManager
+from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -32,27 +34,44 @@ home_assistant_url = config.get("home_assistant_url")
 home_assistant_token = config.get("home_assistant_token")
 home_assistant_agent_id = config.get("home_assistant_agent_id")
 home_assistant_language = config.get("home_assistant_language")
-alexa_speak_output = config.get("alexa_speak_output")
+alexa_speak_welcome_message = config.get("alexa_speak_welcome_message")
+alexa_speak_next_message = config.get("alexa_speak_next_message")
 alexa_speak_question = config.get("alexa_speak_question")
 alexa_speak_help = config.get("alexa_speak_help")
 alexa_speak_exit = config.get("alexa_speak_exit")
 alexa_speak_error = config.get("alexa_speak_error")
 
 # Verificação de configuração
-if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not alexa_speak_output or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
+if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
     raise ValueError("Alguma configuração não feita corretamente!")
 
 # Variável global para armazenar o conversation_id
 conversation_id = None
+# Definir a variável global fora da função de handler
+last_interaction_date = None
 
 class LaunchRequestHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         return ask_utils.is_request_type("LaunchRequest")(handler_input)
 
     def handle(self, handler_input):
-        global conversation_id
+        global conversation_id, last_interaction_date
         conversation_id = None  # Reseta o conversation_id para uma nova sessão
-        return handler_input.response_builder.speak(alexa_speak_output).ask(alexa_speak_output).response
+
+        # Obter a data e hora atual com fuso horário UTC-3
+        now = datetime.now(timezone(timedelta(hours=-3)))  # UTC-3 para o Brasil
+
+        # Carregar o arquivo de configuração
+        current_date = now.strftime('%Y-%m-%d')
+
+        speak_output = alexa_speak_next_message
+
+        if last_interaction_date != current_date:
+            # Primeira execução do dia
+            speak_output = alexa_speak_welcome_message
+            last_interaction_date = current_date
+
+        return handler_input.response_builder.speak(speak_output).ask(speak_output).response
 
 class GptQueryIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
@@ -66,9 +85,6 @@ class GptQueryIntentHandler(AbstractRequestHandler):
         query = handler_input.request_envelope.request.intent.slots["query"].value
         logger.info(f"Query received from: {query}")
         logger.info(f"Device ID: {device_id}")
-
-        # Envia o device_ID para o Home Assistant, no Home_Assistant você pode acessar esse ID único do dispositivo echo a um rótulo
-        # e pedir a IA (no prompt de inicialização) para identificar a área do dispositivo quando uma área não for informada!
         response = process_conversation(f"{query}. device_id: {device_id}")
         
         logger.info(f"Response generated: {response}")
