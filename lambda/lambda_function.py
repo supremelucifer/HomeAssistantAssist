@@ -31,11 +31,16 @@ config = load_config()
 home_assistant_url = config.get("home_assistant_url")
 home_assistant_token = config.get("home_assistant_token")
 home_assistant_agent_id = config.get("home_assistant_agent_id")
+home_assistant_language = config.get("home_assistant_language")
 alexa_speak_output = config.get("alexa_speak_output")
+alexa_speak_question = config.get("alexa_speak_question")
+alexa_speak_help = config.get("alexa_speak_help")
+alexa_speak_exit = config.get("alexa_speak_exit")
+alexa_speak_error = config.get("alexa_speak_error")
 
 # Verificação de configuração
-if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not alexa_speak_output:
-    raise ValueError("alexa_speak_output, home_assistant_url, home_assistant_token ou home_assistant_agent_id não configurados corretamente")
+if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not alexa_speak_output or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
+    raise ValueError("Alguma configuração não feita corretamente!")
 
 # Variável global para armazenar o conversation_id
 conversation_id = None
@@ -58,7 +63,7 @@ class GptQueryIntentHandler(AbstractRequestHandler):
         logger.info(f"Query received: {query}")
         response = process_conversation(query)
         logger.info(f"Response generated: {response}")
-        return handler_input.response_builder.speak(response).ask("Você pode fazer uma nova pergunta ou falar: sair.").response
+        return handler_input.response_builder.speak(response).ask(alexa_speak_question).response
 
 def process_conversation(query):
     global conversation_id
@@ -69,7 +74,7 @@ def process_conversation(query):
         }
         data = {
             "text": replace_words(query),
-            "language": "pt-BR",
+            "language": home_assistant_language,
             "agent_id": home_assistant_agent_id
         }
         if conversation_id:
@@ -91,12 +96,12 @@ def process_conversation(query):
                 speech = response_data["response"]["speech"]["plain"]["speech"]
                 logger.error(f"Error code: {response_data['response']['data']['code']}")
             else:
-                speech = "Não consegui processar sua solicitação."
+                speech = alexa_speak_error
             return speech
         else:
             error_message = response_data.get("message", "Erro desconhecido")
             logger.error(f"Erro ao processar a solicitação: {error_message}")
-            return "Desculpe, não consegui entender seu pedido."
+            return alexa_speak_error
 
     except Exception as e:
         logger.error(f"Erro ao gerar resposta: {str(e)}", exc_info=True)
@@ -111,7 +116,7 @@ class HelpIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("AMAZON.HelpIntent")(handler_input)
 
     def handle(self, handler_input):
-        speak_output = "Como posso te ajudar?"
+        speak_output = alexa_speak_help
         return handler_input.response_builder.speak(speak_output).ask(speak_output).response
 
 class CancelOrStopIntentHandler(AbstractRequestHandler):
@@ -119,7 +124,7 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("AMAZON.CancelIntent")(handler_input) or ask_utils.is_intent_name("AMAZON.StopIntent")(handler_input)
 
     def handle(self, handler_input):
-        speak_output = "Até logo!"
+        speak_output = alexa_speak_exit
         return handler_input.response_builder.speak(speak_output).response
 
 class SessionEndedRequestHandler(AbstractRequestHandler):
@@ -135,7 +140,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
 
     def handle(self, handler_input, exception):
         logger.error(exception, exc_info=True)
-        speak_output = "Desculpe, não consegui processar sua solicitação."
+        speak_output = alexa_speak_error
         return handler_input.response_builder.speak(speak_output).ask(speak_output).response
 
 sb = SkillBuilder()
@@ -147,4 +152,3 @@ sb.add_request_handler(SessionEndedRequestHandler())
 sb.add_exception_handler(CatchAllExceptionHandler())
 
 lambda_handler = sb.lambda_handler()
-
