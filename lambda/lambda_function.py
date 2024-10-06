@@ -56,7 +56,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         global conversation_id, last_interaction_date
-        conversation_id = None  # Reseta o conversation_id para uma nova sessão
+        #conversation_id = None  # Reseta o conversation_id para uma nova sessão
 
         # Obter a data e hora atual com fuso horário UTC-3
         now = datetime.now(timezone(timedelta(hours=-3)))  # UTC-3 para o Brasil
@@ -164,7 +164,25 @@ class CloseSkillIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("CloseSkillIntent")(handler_input)
 
     def handle(self, handler_input):
-        return handler_input.response_builder.speak(alexa_speak_exit).set_should_end_session(True).response
+        # Captura a utterance falada pelo usuário através do slot exitPhrase
+        user_utterance = handler_input.request_envelope.request.intent.slots.get("exitPhrase").value
+        
+        logger.info(f"Ativação de saída: {user_utterance}")
+        
+        # Chama a API de conversação do Home Assistant
+        response = process_conversation(f"{user_utterance}")
+        
+        # Valida se a resposta contém a palavra "erro"
+        if response and "erro" not in response.lower():
+            speak_output = response
+        else:
+            speak_output = alexa_speak_exit
+
+        # Retorna a resposta personalizada
+        handler_input.response_builder.speak(speak_output)
+        
+        # Chama CancelOrStopIntentHandler para finalizar a skill
+        return handler_input.response_builder.set_should_end_session(True).response
 
 class CatchAllExceptionHandler(AbstractExceptionHandler):
     def can_handle(self, handler_input, exception):
