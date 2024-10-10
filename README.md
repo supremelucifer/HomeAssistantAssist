@@ -86,8 +86,6 @@ To the [rodrigoscoelho](https://github.com/rodrigoscoelho), original developer o
 # Skill Alexa que integra o Home Assistant Assist ou a sua IA Generativa de preferência através da API de conversação
 Use o Home Assistant Assist ou a IA generativa na Alexa 😊
 
-![Skill working](https://www.dropbox.com/scl/fi/elmeleiyhwlogy1wzn6wu/20241010_124720.mp4)
-
 ## INSTRUÇÕES
 
 ### Configurando o Home Assistant
