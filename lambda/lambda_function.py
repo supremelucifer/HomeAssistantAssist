@@ -13,7 +13,7 @@ from ask_sdk_core.attributes_manager import AttributesManager
 from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 # Função para carregar configurações do arquivo
 def load_config():
@@ -34,6 +34,9 @@ home_assistant_url = config.get("home_assistant_url")
 home_assistant_token = config.get("home_assistant_token")
 home_assistant_agent_id = config.get("home_assistant_agent_id")
 home_assistant_language = config.get("home_assistant_language")
+home_assistant_api_timeout = int(config.get("home_assistant_api_timeout", 10))
+
+# Configurações de respostas
 alexa_speak_welcome_message = config.get("alexa_speak_welcome_message")
 alexa_speak_next_message = config.get("alexa_speak_next_message")
 alexa_speak_question = config.get("alexa_speak_question")
@@ -42,7 +45,7 @@ alexa_speak_exit = config.get("alexa_speak_exit")
 alexa_speak_error = config.get("alexa_speak_error")
 
 # Verificação de configuração
-if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
+if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not home_assistant_api_timeout or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
     raise ValueError("Alguma configuração não feita corretamente!")
 
 # Variável global para armazenar o conversation_id
@@ -56,10 +59,10 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         global conversation_id, last_interaction_date
-        #conversation_id = None  # Reseta o conversation_id para uma nova sessão
+        #conversation_id = None  # Redefine o conversation_id para uma nova sessão sempre que iniciar
 
-        # Obter a data e hora atual com fuso horário UTC-3
-        now = datetime.now(timezone(timedelta(hours=-3)))  # UTC-3 para o Brasil
+        # Obter a data e hora atual com fuso horário atual
+        now = datetime.now(timezone(timedelta(hours=-3)))
 
         # Carregar o arquivo de configuração
         current_date = now.strftime('%Y-%m-%d')
@@ -83,8 +86,8 @@ class GptQueryIntentHandler(AbstractRequestHandler):
         
         # Adicionar o prefixo com o nome do dispositivo ao comando
         query = handler_input.request_envelope.request.intent.slots["query"].value
-        logger.info(f"Query received from: {query}")
-        logger.info(f"Device ID: {device_id}")
+        logger.info(f"Query received: {query}")
+        logger.debug(f"Device ID: {device_id}")
         response = process_conversation(f"{query}. device_id: {device_id}")
         
         logger.info(f"Response generated: {response}")
@@ -106,7 +109,7 @@ def process_conversation(query):
             data["conversation_id"] = conversation_id
 
         logger.debug(f"Requesting Home Assistant with data: {data}")
-        response = requests.post(home_assistant_url, headers=headers, json=data)
+        response = requests.post(home_assistant_url, headers=headers, json=data, timeout=home_assistant_api_timeout)
         logger.debug(f"Home Assistant response status: {response.status_code}")
         logger.debug(f"Home Assistant response data: {response.text}")
         
