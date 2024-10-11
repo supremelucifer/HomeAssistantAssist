@@ -47,9 +47,10 @@ Use Home Assistant Assist or IA generative conversation in Alexa 😊
   - See the following image for reference:
     ![Debug Assistant](https://community-assets.home-assistant.io/original/4X/5/9/c/59cad339a22cb65c63996f58e28d412f73a6d40f.png)
 
-### To get the `home_assistant_agent_id` from your AI integration (if you are using one, such as Google AI or Open AI), follow the steps below::
+### To get the `home_assistant_agent_id` from the generative AI (if you are using one, such as Google AI or Open AI), instead of the instructions above, follow the instructions below:
 - The `agent_id` is the ID of the generative AI entity:
   1. Go to **Settings** > **Devices & Services** > **Integrations** > **OpenAI Conversation** or **Google Generative AI** and you will see "1 service and 1 entity", click on the entity and the entity will be displayed in the **Entity ID** column.
+    ![Conversation entity ID](images/conversation_entity_id.jpg)
 
 ### Publishing the Skill
 1. After deploying the code in the **Code** tab, go back to the **Build** tab and click **Build skill**.
@@ -136,9 +137,10 @@ Use o Home Assistant Assist ou a IA generativa na Alexa 😊
   - Veja a imagem a seguir para referência:
     ![Debug Assistant](https://community-assets.home-assistant.io/original/4X/5/9/c/59cad339a22cb65c63996f58e28d412f73a6d40f.png)
 
-### Para obter o `home_assistant_agent_id` da IA generativa (se estiver utilizando uma, como Google AI ou Open AI), siga os passos abaixo:
+### Já para obter o `home_assistant_agent_id` da IA generativa (se estiver utilizando uma, como Google AI ou Open AI), ao invés das instruções acima, siga as instruções abaixo:
 - O `agent_id` é o ID da entidade de IA generativa: 
-  1. Acesse **Configurações** > **Dispositivos & Serviços** > **Integrações** > **OpenAI Conversation** ou **Google Generative AI** e você verá "1 serviço e 1 enmtidade", clique na entidade e a entidade será exibida na coluna **ID da entidade**.
+  1. Acesse **Configurações** > **Dispositivos & Serviços** > **Integrações** > **OpenAI Conversation** ou **Google Generative AI** e você verá "1 serviço e 1 enmtidade", clique na entidade e a entidade será exibida na coluna **ID da entidade*        *.
+    ![ID entidade de conversação](images/conversation_entity_id.jpg)
   
 ### Publicando a Skill
 1. Após fazer o deploy do código na aba **Code**, volte para aba **Build** e clique em **Build skill**.
