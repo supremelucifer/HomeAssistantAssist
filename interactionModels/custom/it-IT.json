@@ -1,0 +1,59 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "home mode",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "GptQueryIntent",
+          "slots": [
+            {
+              "name": "query",
+              "type": "AMAZON.Person"
+            }
+          ],
+          "samples": [
+            "{query}"
+          ]
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "CloseSkillIntent",
+          "slots": [
+            {
+              "name": "exitPhrase",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "grazie",
+            "arrivederci",
+            "vicino",
+            "{exitPhrase} grazie",
+            "{exitPhrase} arrivederci",
+            "{exitPhrase} vicino"
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}
