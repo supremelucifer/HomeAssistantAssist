@@ -8,7 +8,7 @@ Use Home Assistant Assist or IA generative conversation in Alexa 😊
 
 ### Creating the Alexa Skill
 1. Create an Alexa-hosted (Python) Skill in the Alexa Developer Console:
-   - **Name your Skill**: Choose a name of your preference (e.g., HomeAssist)
+   - **Name your Skill**: Choose a name of your preference (e.g., Home Assistant Assist)
    - **Choose a primary locale**: Portuguese (BR)
    - **Type of experience**: Other > Custom > Alexa-hosted (Python)
    - **Hosting region**: You can leave the default (US East (N. Virginia))
@@ -55,7 +55,7 @@ Use Home Assistant Assist or IA generative conversation in Alexa 😊
 ### Publishing the Skill
 1. After deploying the code in the **Code** tab, go back to the **Build** tab and click **Build skill**.
 2. Then go to the ``Alexa`` app on your cell phone and go to: **More** > **Skills and games** > slide the screen to the end and click on **Your Skills** > **Develop.**, click on the Skill you just created and **activate**
-    ![Desenv. skills](images/alexa_dev_app.jpg)
+    ![Develop. skills](images/alexa_dev_app.jpg)
 3. Go back to the ``Alexa Developer Console`` and test the Skill in the **Test** tab to ensure the wake word and skill are working correctly.
 
 ### Enabling automatic area recognition by AI
@@ -100,7 +100,7 @@ Use o Home Assistant Assist ou a IA generativa na Alexa 😊
 
 ### Criando a Skill Alexa
 1. Crie uma Skill Alexa-hosted (Python) na Alexa Developer Console:
-   - **Name your Skill**: Escolha um nome de sua preferência (Ex: HomeAssist)
+   - **Name your Skill**: Escolha um nome de sua preferência (Ex: Home Assistant IA)
    - **Choose a primary locale**: Portuguese (BR)
    - **Tipo de experiência**: Other > Custom > Alexa-hosted (Python)
    - **Hosting region**: Pode deixar o padrão (US East (N. Virginia))
