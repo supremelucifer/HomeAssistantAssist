@@ -54,7 +54,9 @@ Use Home Assistant Assist or IA generative conversation in Alexa 😊
 
 ### Publishing the Skill
 1. After deploying the code in the **Code** tab, go back to the **Build** tab and click **Build skill**.
-2. Test the Skill in the **Test** tab to ensure that the activation word and the skill are working correctly.
+2. Then go to the ``Alexa`` app on your cell phone and go to: **More** > **Skills and games** > slide the screen to the end and click on **Your Skills** > **Develop.**, click on the Skill you just created and **activate**
+    ![Desenv. skills](images/alexa_dev_app.jpg)
+3. Go back to the ``Alexa Developer Console`` and test the Skill in the **Test** tab to ensure the wake word and skill are working correctly.
 
 ### Enabling automatic area recognition by AI
 - The skill sends the device id (which is running the skill) in the Home Assistant conversational API call, then with a command instruction to the AI ​​and a label on the device, the AI ​​can associate the received device identifier with the device and locate which area it is in, to do this, follow the steps below:
@@ -144,7 +146,9 @@ Use o Home Assistant Assist ou a IA generativa na Alexa 😊
   
 ### Publicando a Skill
 1. Após fazer o deploy do código na aba **Code**, volte para aba **Build** e clique em **Build skill**.
-2. Teste a Skill na aba **Test** para garantir que a palavra de ativação e a skill estão funcionando corretamente.
+2. Depois vá no aplicativo ``Alexa`` do seu celular e vá em: **Mais** > **Skills e jogos** > deslize a tela até o fim e clique em **Suas Skills** > **Desenv.**, clique na Skill que você acabou de criar e **ative**
+    ![Desenv. skills](images/alexa_dev_app.jpg)
+3. Volte no console da ``Alexa Developer Console`` e teste a Skill na aba **Test** para garantir que a palavra de ativação e a skill estão funcionando corretamente.
 
 ### Ativando o reconhecimento de área automático pela IA
 - A skill envia o device id (que está executando a skill) na chamada da API de conversação do Home Assistant, então com uma instrução de comando para a IA e um rótulo no dispositivo, a IA consegue associar o identificador dos dispositivo recebido ao dispositivo e localizar em qual área ele está, para isso, siga os passos abaixo:
