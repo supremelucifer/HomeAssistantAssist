@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 import logging
 import json
 import requests
@@ -125,7 +126,7 @@ def process_conversation(query):
                 logger.error(f"Error code: {response_data['response']['data']['code']}")
             else:
                 speech = alexa_speak_error
-            return speech
+            return improve_response(speech)
         else:
             error_message = response_data.get("message", "Erro desconhecido")
             logger.error(f"Erro ao processar a solicitação: {error_message}")
@@ -138,6 +139,23 @@ def process_conversation(query):
 def replace_words(query):
     query = query.replace('4.º','quarto')
     return query
+
+def improve_response(speech):
+    # Substituições específicas
+    speech = speech.replace(':\n\n', '')
+    speech = speech.replace('\n\n', '. ')
+    speech = speech.replace('\n', ',')
+    speech = speech.replace('-', '')
+    speech = speech.replace('_', ' ')
+    
+    # Substituir as vogais com trema
+    replacements = str.maketrans('ïöüÏÖÜ', 'iouIOU')
+    speech = speech.translate(replacements)
+
+    # Remover restante dos caracteres especiais que engine não pronuncia corretamente
+    speech = re.sub(r'[^A-Za-z0-9çÇáàâãéèêíóôõúñÁÀÂÃÉÈÊÍÓÔÕÚÑ\s.,!?]', '', speech)
+
+    return speech
 
 class HelpIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
