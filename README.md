@@ -70,6 +70,10 @@ Use Home Assistant Assist or IA generative conversation in Alexa 😊
      ```
   3. I took all the identifier that is after the device_id: `amzn1.ask.device.AMA***` and added a new label in the **echo device** through the `Alexa Media` Integration:
     ![Label on the echo device with the device ID received from the skill](images/echo_device_label.jpg)
+  4. Update your preferred **AI command prompt** with the command below:
+     ```txt
+     If asked to perform an action and the area was not provided, use the label received in the command after the string "device_id:" to find the entity associated with the label and use the entity area to execute the command.
+     ```
 
 ### Good luck!
 Now you can use your Alexa Skill to integrate and interact with Home Assistant via the Assist Conversation API.
@@ -155,6 +159,10 @@ Use o Home Assistant Assist ou a IA generativa na Alexa 😊
      ```
   3. Peguei todo o identificador que estiver após o device_id: `amzn1.ask.device.AMA***` e adicione um novo rótulo no **dispositivo echo** pela Integração `Alexa Media`:
     ![Rótulo no dispositivo echo com o device ID recebido da skill](images/echo_device_label.jpg)
+  4. Atualize o **prompt de comando da IA** de sua preferência com o comando abaixo:
+     ```txt
+     Se solicitado para executar alguma ação e não informar a área do dispositivo, use o rótulo recebido no comando após a string "device_id:" para encontrar a entidade associada ao rotulo e use a área dessa entididade para executar o comando.
+     ```
 
 ### Boa sorte!
 Agora você pode usar sua Skill Alexa para integrar e interagir com o Home Assistant via Assist Conversation API.
