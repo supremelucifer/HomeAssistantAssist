@@ -9,9 +9,12 @@ import ask_sdk_core.utils as ask_utils
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
 from ask_sdk_core.handler_input import HandlerInput
+from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective, ExecuteCommandsDirective, OpenUrlCommand
+from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_model import Response
 from ask_sdk_core.attributes_manager import AttributesManager
 from datetime import datetime, timezone, timedelta
+from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -22,7 +25,10 @@ def load_config():
     try:
         with open("config.txt", encoding='utf-8') as f:
             for line in f:
-                name, value = line.strip().split('=')
+                line = line.strip()
+                if not line or '=' not in line:
+                    continue
+                name, value = line.split('=', 1)
                 config[name] = value
     except Exception as e:
         logger.error(f"Erro ao carregar o arquivo de configuração: {str(e)}")
@@ -36,17 +42,19 @@ home_assistant_token = config.get("home_assistant_token")
 home_assistant_agent_id = config.get("home_assistant_agent_id")
 home_assistant_language = config.get("home_assistant_language")
 home_assistant_api_timeout = int(config.get("home_assistant_api_timeout", 10))
+home_assistant_dashboard = config.get("home_assistant_dashboard")
+home_assistant_kioskmode = bool(config.get("home_assistant_kioskmode", False))
 
 # Configurações de respostas
 alexa_speak_welcome_message = config.get("alexa_speak_welcome_message")
 alexa_speak_next_message = config.get("alexa_speak_next_message")
 alexa_speak_question = config.get("alexa_speak_question")
 alexa_speak_help = config.get("alexa_speak_help")
-alexa_speak_exit = config.get("alexa_speak_exit")
+alexa_speak_exit = config.get("alexa_speak_exit").strip().split(';')
 alexa_speak_error = config.get("alexa_speak_error")
 
 # Verificação de configuração
-if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not home_assistant_api_timeout or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
+if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
     raise ValueError("Alguma configuração não feita corretamente!")
 
 # Variável global para armazenar o conversation_id
@@ -157,6 +165,23 @@ def improve_response(speech):
 
     return speech
 
+def load_template(filepath):
+    # Carrega o template da interface gráfica
+    with open(filepath) as f:
+        return json.load(f)
+
+def open_page():
+    # Abre o dashboard do Home Assistant
+    global home_assistant_dashboard
+    if not home_assistant_dashboard:
+        home_assistant_dashboard = "lovelace"
+            
+    source = home_assistant_url.replace('api/conversation/process', home_assistant_dashboard)    
+    if home_assistant_kioskmode:
+        source = source + '?kiosk'
+    
+    return OpenUrlCommand(source = source)
+
 class HelpIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         return ask_utils.is_intent_name("AMAZON.HelpIntent")(handler_input)
@@ -170,7 +195,24 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("AMAZON.CancelIntent")(handler_input) or ask_utils.is_intent_name("AMAZON.StopIntent")(handler_input)
 
     def handle(self, handler_input):
-        speak_output = alexa_speak_exit
+        # Renderizar modelo vazio, necessário para o comando OpenURL
+        # https://amazon.developer.forums.answerhub.com/questions/220506/alexa-open-a-browser.html
+        handler_input.response_builder.add_directive(
+            RenderDocumentDirective(
+                token=home_assistant_token,
+                document=load_template("template.json")
+            )
+        )
+
+        # Open default page of dashboard
+        handler_input.response_builder.add_directive(
+            ExecuteCommandsDirective(
+                token=home_assistant_token,
+                commands=[open_page()]
+            )
+        )
+        
+        speak_output = random.choice(alexa_speak_exit)
         return handler_input.response_builder.speak(speak_output).response
 
 class SessionEndedRequestHandler(AbstractRequestHandler):
@@ -201,6 +243,23 @@ class CloseSkillIntentHandler(AbstractRequestHandler):
 
         # Retorna a resposta personalizada
         handler_input.response_builder.speak(speak_output)
+        
+        # Renderizar modelo vazio, necessário para o comando OpenURL
+        # https://amazon.developer.forums.answerhub.com/questions/220506/alexa-open-a-browser.html
+        handler_input.response_builder.add_directive(
+            RenderDocumentDirective(
+                token=home_assistant_token,
+                document=load_template("template.json")
+            )
+        )
+
+        # Open default page of dashboard
+        handler_input.response_builder.add_directive(
+            ExecuteCommandsDirective(
+                token=home_assistant_token,
+                commands=[open_page()]
+            )
+        )
         
         # Chama CancelOrStopIntentHandler para finalizar a skill
         return handler_input.response_builder.set_should_end_session(True).response
