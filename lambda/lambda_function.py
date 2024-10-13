@@ -45,6 +45,11 @@ home_assistant_api_timeout = int(config.get("home_assistant_api_timeout", 10))
 home_assistant_dashboard = config.get("home_assistant_dashboard")
 home_assistant_kioskmode = bool(config.get("home_assistant_kioskmode", False))
 
+# Configurações da interface
+echo_screen_welcome_text = config.get("echo_screen_welcome_text")
+echo_screen_click_text = config.get("echo_screen_click_text")
+echo_screen_button_text = config.get("echo_screen_button_text")
+
 # Configurações de respostas
 alexa_speak_welcome_message = config.get("alexa_speak_welcome_message")
 alexa_speak_next_message = config.get("alexa_speak_next_message")
@@ -54,7 +59,7 @@ alexa_speak_exit = config.get("alexa_speak_exit").strip().split(';')
 alexa_speak_error = config.get("alexa_speak_error")
 
 # Verificação de configuração
-if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
+if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not echo_screen_welcome_text or not echo_screen_button_text or not echo_screen_click_text or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
     raise ValueError("Alguma configuração não feita corretamente!")
 
 # Variável global para armazenar o conversation_id
@@ -82,6 +87,14 @@ class LaunchRequestHandler(AbstractRequestHandler):
             # Primeira execução do dia
             speak_output = alexa_speak_welcome_message
             last_interaction_date = current_date
+            
+        # Renderiza o documento APL com o botão para abrir o HA
+        handler_input.response_builder.add_directive(
+            RenderDocumentDirective(
+                token=home_assistant_token,
+                document=load_template("apl_openha.json")
+            )
+        )
 
         return handler_input.response_builder.speak(speak_output).ask(speak_output).response
 
@@ -167,11 +180,22 @@ def improve_response(speech):
 
 def load_template(filepath):
     # Carrega o template da interface gráfica
-    with open(filepath) as f:
-        return json.load(f)
+    with open(filepath, encoding='utf-8') as f:
+        template = json.load(f)
+
+    if filepath == 'apl_openha.json':
+        # Substituindo os valores dinâmicos do APL
+        template['mainTemplate']['items'][0]['items'][2]['text'] = echo_screen_welcome_text
+        template['mainTemplate']['items'][0]['items'][3]['text'] = echo_screen_click_text
+        template['mainTemplate']['items'][0]['items'][4]['onPress']['source'] = get_hadash_url()
+        template['mainTemplate']['items'][0]['items'][4]['item']['text'] = echo_screen_button_text
+
+    return template
 
 def open_page():
-    # Abre o dashboard do Home Assistant
+    return OpenUrlCommand(source = get_hadash_url())
+
+def get_hadash_url():
     global home_assistant_dashboard
     if not home_assistant_dashboard:
         home_assistant_dashboard = "lovelace"
@@ -179,8 +203,8 @@ def open_page():
     source = home_assistant_url.replace('api/conversation/process', home_assistant_dashboard)    
     if home_assistant_kioskmode:
         source = source + '?kiosk'
-    
-    return OpenUrlCommand(source = source)
+        
+    return source
 
 class HelpIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
@@ -200,7 +224,7 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
         handler_input.response_builder.add_directive(
             RenderDocumentDirective(
                 token=home_assistant_token,
-                document=load_template("template.json")
+                document=load_template("apl_empty.json")
             )
         )
 
@@ -249,7 +273,7 @@ class CloseSkillIntentHandler(AbstractRequestHandler):
         handler_input.response_builder.add_directive(
             RenderDocumentDirective(
                 token=home_assistant_token,
-                document=load_template("template.json")
+                document=load_template("apl_empty.json")
             )
         )
 
