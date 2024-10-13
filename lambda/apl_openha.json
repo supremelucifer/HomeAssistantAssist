@@ -9,17 +9,16 @@
         "items": [
           {
             "type": "Image",
-            "source": "https://i.ibb.co/djzsWcW/ha-title.png",
-            "scale": "contain",
-            "width": "70vw",
-            "height": "auto",
-            "alignSelf": "center",
-            "opacity": 1,
-            "marginTop": "20dp"
+            "source": "https://raw.githubusercontent.com/fabianosan/HomeAssistantAssist/ea4634d5f8a4291a8bb975dfee499bb64ed1ca8e/lambda/images/background.jpg",
+            "scale": "fill",
+            "width": "100vw",
+            "height": "100vh",
+            "opacity": 0.5,
+            "position": "absolute"
           },
           {
             "type": "Image",
-            "source": "https://i.ibb.co/djzsWcW/ha-title.png",
+            "source": "https://raw.githubusercontent.com/fabianosan/HomeAssistantAssist/ea4634d5f8a4291a8bb975dfee499bb64ed1ca8e/lambda/images/ha_title.png",
             "scale": "contain",
             "width": "70vw",
             "height": "auto",
@@ -29,7 +28,7 @@
           },
           {
             "type": "Text",
-            "text": "Bem-vindo ‡ casa Vitucci!",
+            "text": "Bem-vindo √† casa Vitucci!",
             "fontSize": "50dp",
             "textAlign": "center",
             "backgroundColor": "#4CAF50",
@@ -37,7 +36,7 @@
           },
           {
             "type": "Text",
-            "text": "Clique no bot„o abaixo para abrir seu dashboard",
+            "text": "Clique no bot√£o abaixo para abrir seu dashboard",
             "fontSize": "15dp",
             "textAlign": "center",
             "color": "#000000",
