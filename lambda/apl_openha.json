@@ -19,12 +19,12 @@
           {
             "type": "Image",
             "source": "https://raw.githubusercontent.com/fabianosan/HomeAssistantAssist/ea4634d5f8a4291a8bb975dfee499bb64ed1ca8e/lambda/images/ha_title.png",
-            "scale": "contain",
+            "scale": "best-fit",
             "width": "70vw",
-            "height": "auto",
+            "height": "100dp",
             "alignSelf": "center",
             "opacity": 1,
-            "marginTop": "20dp"
+            "marginTop": "10dp"
           },
           {
             "type": "Text",
