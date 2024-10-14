@@ -9,7 +9,7 @@
         "items": [
           {
             "type": "Image",
-            "source": "asset://images/background.jpg",
+            "source": "https://raw.githubusercontent.com/fabianosan/HomeAssistantAssist/refs/heads/main/skill-package/assets/images/background.jpg",
             "scale": "fill",
             "width": "100vw",
             "height": "100vh",
@@ -18,7 +18,7 @@
           },
           {
             "type": "Image",
-            "source": "asset://images/ha_title.png",
+            "source": "https://raw.githubusercontent.com/fabianosan/HomeAssistantAssist/refs/heads/main/skill-package/assets/images/ha_title.png",
             "scale": "best-fit",
             "width": "70vw",
             "height": "100dp",

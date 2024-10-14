@@ -9,7 +9,6 @@ import ask_sdk_core.utils as ask_utils
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
 from ask_sdk_core.handler_input import HandlerInput
-from ask_sdk_core.utils import get_supported_interfaces
 from ask_sdk_core.attributes_manager import AttributesManager
 from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective, ExecuteCommandsDirective, OpenUrlCommand
 from ask_sdk_model import Response
@@ -92,11 +91,11 @@ class LaunchRequestHandler(AbstractRequestHandler):
             last_interaction_date = current_date
         
         # Device supported interfaces
-        logger.debug(handler_input.request_envelope.context.system.device.supported_interfaces)
-            
-        # Verificar se o dispositivo suporta APL
-        is_apl_supported = get_supported_interfaces(handler_input).alexa_presentation_apl is not None
-
+        device = handler_input.request_envelope.context.system.device
+        is_apl_supported = device.supported_interfaces.alexa_presentation_apl is not None
+        
+        logger.debug("Device: " + repr(device))
+        
         # Renderiza o documento APL com o botão para abrir o HA (se o dispositivo tiver tela)
         if is_apl_supported:
             handler_input.response_builder.add_directive(
@@ -119,7 +118,6 @@ class GptQueryIntentHandler(AbstractRequestHandler):
         # Adicionar o prefixo com o nome do dispositivo ao comando
         query = handler_input.request_envelope.request.intent.slots["query"].value
         logger.info(f"Query received: {query}")
-        logger.debug(f"Device ID: {device_id}")
         response = process_conversation(f"{query}. device_id: {device_id}")
         
         logger.info(f"Response generated: {response}")
