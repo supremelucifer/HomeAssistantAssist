@@ -31,8 +31,26 @@
       "distributionCountries": [],
       "isAvailableWorldwide": true,
       "locales": {
+        "en-GB": {
+          "name": "Home Assistant Assist"
+        },
+        "en-US": {
+          "name": "Home Assistant Assist"
+        },
+        "es-ES": {
+          "name": "Home Assistant Assist"
+        },
+        "fr-FR": {
+          "name": "Home Assistant Assist"
+        },
+        "it-IT": {
+          "name": "Home Assistant Assist"
+        },
         "pt-BR": {
-          "name": "AssistHomeAssistant"
+          "name": "Home Assistant Assist"
+        },
+        "pt-PT": {
+          "name": "Home Assistant Assist"
         }
       },
       "testingInstructions": "Sample Testing Instructions."
