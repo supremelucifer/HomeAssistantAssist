@@ -9,10 +9,10 @@ import ask_sdk_core.utils as ask_utils
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
 from ask_sdk_core.handler_input import HandlerInput
-from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective, ExecuteCommandsDirective, OpenUrlCommand
-from ask_sdk_core.handler_input import HandlerInput
-from ask_sdk_model import Response
+from ask_sdk_core.utils import get_supported_interfaces
 from ask_sdk_core.attributes_manager import AttributesManager
+from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective, ExecuteCommandsDirective, OpenUrlCommand
+from ask_sdk_model import Response
 from datetime import datetime, timezone, timedelta
 from typing import Dict, Any
 
@@ -67,6 +67,9 @@ conversation_id = None
 # Definir a variável global fora da função de handler
 last_interaction_date = None
 
+# Variáveis globais para verificar se APL (interface)
+is_apl_supported = False
+
 class LaunchRequestHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         return ask_utils.is_request_type("LaunchRequest")(handler_input)
@@ -87,14 +90,21 @@ class LaunchRequestHandler(AbstractRequestHandler):
             # Primeira execução do dia
             speak_output = alexa_speak_welcome_message
             last_interaction_date = current_date
+        
+        # Device supported interfaces
+        logger.debug(handler_input.request_envelope.context.system.device.supported_interfaces)
             
-        # Renderiza o documento APL com o botão para abrir o HA
-        handler_input.response_builder.add_directive(
-            RenderDocumentDirective(
-                token=home_assistant_token,
-                document=load_template("apl_openha.json")
+        # Verificar se o dispositivo suporta APL
+        is_apl_supported = get_supported_interfaces(handler_input).alexa_presentation_apl is not None
+
+        # Renderiza o documento APL com o botão para abrir o HA (se o dispositivo tiver tela)
+        if is_apl_supported:
+            handler_input.response_builder.add_directive(
+                RenderDocumentDirective(
+                    token=home_assistant_token,
+                    document=load_template("apl_openha.json")
+                )
             )
-        )
 
         return handler_input.response_builder.speak(speak_output).ask(speak_output).response
 
@@ -219,22 +229,24 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("AMAZON.CancelIntent")(handler_input) or ask_utils.is_intent_name("AMAZON.StopIntent")(handler_input)
 
     def handle(self, handler_input):
-        # Renderizar modelo vazio, necessário para o comando OpenURL
-        # https://amazon.developer.forums.answerhub.com/questions/220506/alexa-open-a-browser.html
-        handler_input.response_builder.add_directive(
-            RenderDocumentDirective(
-                token=home_assistant_token,
-                document=load_template("apl_empty.json")
+        global is_apl_supported
+        if is_apl_supported:
+            # Renderizar modelo vazio, necessário para o comando OpenURL
+            # https://amazon.developer.forums.answerhub.com/questions/220506/alexa-open-a-browser.html
+            handler_input.response_builder.add_directive(
+                RenderDocumentDirective(
+                    token=home_assistant_token,
+                    document=load_template("apl_empty.json")
+                )
             )
-        )
 
-        # Open default page of dashboard
-        handler_input.response_builder.add_directive(
-            ExecuteCommandsDirective(
-                token=home_assistant_token,
-                commands=[open_page()]
+            # Open default page of dashboard
+            handler_input.response_builder.add_directive(
+                ExecuteCommandsDirective(
+                    token=home_assistant_token,
+                    commands=[open_page()]
+                )
             )
-        )
         
         speak_output = random.choice(alexa_speak_exit)
         return handler_input.response_builder.speak(speak_output).response
@@ -268,22 +280,24 @@ class CloseSkillIntentHandler(AbstractRequestHandler):
         # Retorna a resposta personalizada
         handler_input.response_builder.speak(speak_output)
         
-        # Renderizar modelo vazio, necessário para o comando OpenURL
-        # https://amazon.developer.forums.answerhub.com/questions/220506/alexa-open-a-browser.html
-        handler_input.response_builder.add_directive(
-            RenderDocumentDirective(
-                token=home_assistant_token,
-                document=load_template("apl_empty.json")
+        global is_apl_supported
+        if is_apl_supported:
+            # Renderizar modelo vazio, necessário para o comando OpenURL
+            # https://amazon.developer.forums.answerhub.com/questions/220506/alexa-open-a-browser.html
+            handler_input.response_builder.add_directive(
+                RenderDocumentDirective(
+                    token=home_assistant_token,
+                    document=load_template("apl_empty.json")
+                )
             )
-        )
 
-        # Open default page of dashboard
-        handler_input.response_builder.add_directive(
-            ExecuteCommandsDirective(
-                token=home_assistant_token,
-                commands=[open_page()]
+            # Open default page of dashboard
+            handler_input.response_builder.add_directive(
+                ExecuteCommandsDirective(
+                    token=home_assistant_token,
+                    commands=[open_page()]
+                )
             )
-        )
         
         # Chama CancelOrStopIntentHandler para finalizar a skill
         return handler_input.response_builder.set_should_end_session(True).response
