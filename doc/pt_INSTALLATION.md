@@ -60,6 +60,7 @@
 ### Publicando a Skill
 1. Após fazer o deploy do código na aba **Code**, volte para aba **Build** e clique em **Build skill**.
 2. Depois vá no aplicativo **Alexa** em seu celular e vá em: `Mais` > `Skills e jogos` > deslize a tela até o fim e clique em `Suas Skills` > `Desenv.`, clique na skill que você acabou de criar e **ative**
+
     ![Desenv. skills](images/alexa_dev_app.jpg)
     ![Ativar para uso](images/alexa_dev_app_activated.jpg)
 3. Volte no console da ``Alexa Developer Console`` e teste a Skill na aba **Test** para garantir que a palavra de ativação e a skill estão funcionando corretamente.

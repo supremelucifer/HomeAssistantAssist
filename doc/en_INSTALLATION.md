@@ -60,6 +60,7 @@
 ### Publishing the Skill
 1. After deploying the code in the **Code** tab, return to the **Build** tab and click on **Build skill**.
 2. Then go to the **Alexa** app on your phone: `More` > `Skills & Games` > scroll to the bottom and click on `Your Skills` > `Dev.`, click on the skill you just created and **activate** it.
+
     ![Dev skills](images/alexa_dev_app.jpg)
     ![Activate for use](images/alexa_dev_app_activated.jpg)
 3. Go back to the ``Alexa Developer Console`` and test the Skill in the **Test** tab to ensure the wake word and skill are working correctly.
