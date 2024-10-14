@@ -34,8 +34,8 @@
       "locales": {
         "en-GB": {
           "name": "Home Assistant Assist",
-          "shortDescription": "Control your smart home by interacting with the Home Assistant Assist.",
-          "longDescription": "This skill allows you to interact with your Home Assistant Assist instance using the conversation API.",
+          "summary": "Control your smart home by interacting with the Home Assistant Assist.",
+          "description": "This skill allows you to interact with your Home Assistant Assist instance using the conversation API.",
           "examplePhrases": [
             "Alexa, open home assistant",
             "Turn off the kitchen lights",
@@ -44,8 +44,8 @@
         },
         "en-US": {
           "name": "Home Assistant Assist",
-          "shortDescription": "Control your smart home by interacting with the Home Assistant Assist.",
-          "longDescription": "This skill allows you to interact with your Home Assistant Assist instance using the conversation API.",
+          "summary": "Control your smart home by interacting with the Home Assistant Assist.",
+          "description": "This skill allows you to interact with your Home Assistant Assist instance using the conversation API.",
           "examplePhrases": [
             "Alexa, open home assistant",
             "Turn off the kitchen lights",
@@ -54,8 +54,8 @@
         },
         "es-ES": {
           "name": "Home Assistant Assist",
-          "shortDescription": "Controla tu hogar inteligente interactuando con el Asistente de Home Assistant.",
-          "longDescription": "Esta skill te permite interactuar con tu instancia de Asistente de Home Assistant mediante la API de conversación.",
+          "summary": "Controla tu hogar inteligente interactuando con el Asistente de Home Assistant.",
+          "description": "Esta skill te permite interactuar con tu instancia de Asistente de Home Assistant mediante la API de conversación.",
           "examplePhrases": [
             "Alexa, abrir home assistant",
             "Apaga la luz de la cocina",
@@ -64,8 +64,8 @@
         },
         "fr-FR": {
           "name": "Home Assistant Assist",
-          "shortDescription": "Contrôlez votre maison intelligente en interagissant avec l'assistant Home Assistant.",
-          "longDescription": "Cette skill vous permet d'interagir avec votre instance Home Assistant Assist via l'API de conversation.",
+          "summary": "Contrôlez votre maison intelligente en interagissant avec l'assistant Home Assistant.",
+          "description": "Cette skill vous permet d'interagir avec votre instance Home Assistant Assist via l'API de conversation.",
           "examplePhrases": [
             "Alexa, ouvrir home assistant",
             "Éteignez la lumière de la cuisine",
@@ -74,8 +74,8 @@
         },
         "it-IT": {
           "name": "Home Assistant Assist",
-          "shortDescription": "Controlla la tua casa intelligente interagendo con l'assistente di Home Assistant.",
-          "longDescription": "Questa skill ti permette di interagire con la tua istanza di Home Assistant Assist tramite l'API di conversazione.",
+          "summary": "Controlla la tua casa intelligente interagendo con l'assistente di Home Assistant.",
+          "description": "Questa skill ti permette di interagire con la tua istanza di Home Assistant Assist tramite l'API di conversazione.",
           "examplePhrases": [
             "Alexa, apri home assistant",
             "Spegni la luce della cucina",
@@ -84,8 +84,8 @@
         },
         "pt-BR": {
           "name": "Home Assistant Assist",
-          "shortDescription": "Controle sua casa inteligente interagindo com o Assist do Home Assistant.",
-          "longDescription": "Essa skill permite que você interaja com sua instância do Home Assistant Assist por meio da API de conversação.",
+          "summary": "Controle sua casa inteligente interagindo com o Assist do Home Assistant.",
+          "description": "Essa skill permite que você interaja com sua instância do Home Assistant Assist por meio da API de conversação.",
           "examplePhrases": [
             "Alexa, abrir home assistant",
             "Desligue a luz da cozinha",
@@ -94,8 +94,8 @@
         },
         "pt-PT": {
           "name": "Home Assistant Assist",
-          "shortDescription": "Controle a sua casa inteligente interagindo com o Assist do Home Assistant.",
-          "longDescription": "Esta skill permite interagir com a sua instância do Home Assistant Assist através da API de conversação.",
+          "summary": "Controle a sua casa inteligente interagindo com o Assist do Home Assistant.",
+          "description": "Esta skill permite interagir com a sua instância do Home Assistant Assist através da API de conversação.",
           "examplePhrases": [
             "Alexa, abrir home assistant",
             "Desligue a luz da cozinha",
