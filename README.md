@@ -9,11 +9,13 @@ Use Home Assistant Assist or IA generative conversation in Alexa 😊
 ### Creating the Alexa Skill
 1. Create an Alexa-hosted (Python) Skill in the Alexa Developer Console:
    - **Name your Skill**: Choose a name of your preference (e.g., Home Assistant Assist)
-   - **Choose a primary locale**: Portuguese (BR)
-   - **Type of experience**: Other > Custom > Alexa-hosted (Python)
-   - **Hosting region**: You can leave the default (US East (N. Virginia))
-   - **Templates**: Click on Import Skill
-   - **Insert the address**: [https://github.com/fabianosan/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git](https://github.com/fabianosan/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git)
+   - **Choose a primary locale**: English (US)
+   - **Choose a type of experience**: Other
+   - **Choose a model**: Custom
+   - **Hosting services**: Alexa hosted (Python)
+   - **Hosting region**: US East (N. Virginia) is default, but you can choose your prefered location.
+   - **Templates**: Click on ``Import skill``
+   - **Insert the address**: [https://github.com/fabianosan/HomeAssistantAssist.git](https://github.com/fabianosan/HomeAssistantAssist.git) and click ``Import``
 2. Go to the "Code" tab
 3. Enter your information in the `config.txt` file:
    - Open the `config.txt` file in the root directory of the project (/Skill Code/lambda/).
