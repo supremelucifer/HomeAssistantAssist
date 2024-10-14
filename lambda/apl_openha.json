@@ -9,7 +9,7 @@
         "items": [
           {
             "type": "Image",
-            "source": "https://raw.githubusercontent.com/fabianosan/HomeAssistantAssist/ea4634d5f8a4291a8bb975dfee499bb64ed1ca8e/lambda/images/background.jpg",
+            "source": "asset://images/background.jpg",
             "scale": "fill",
             "width": "100vw",
             "height": "100vh",
@@ -18,7 +18,7 @@
           },
           {
             "type": "Image",
-            "source": "https://raw.githubusercontent.com/fabianosan/HomeAssistantAssist/ea4634d5f8a4291a8bb975dfee499bb64ed1ca8e/lambda/images/ha_title.png",
+            "source": "asset://images/ha_title.png",
             "scale": "best-fit",
             "width": "70vw",
             "height": "100dp",
