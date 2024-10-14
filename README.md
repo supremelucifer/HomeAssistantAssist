@@ -22,7 +22,7 @@ When the skill is started on Echo Show, it opens a screen with a button to open,
 
 ## Installation
 
-For instructions how to set this skill up refer to the [installation](doc/pt_INSTALLATION.mdINSTALLATION.md) page.
+For instructions how to set this skill up refer to the [installation](doc/en_INSTALLATION.md) page.
 
 ---------------------------------------------------------------------------------
 
@@ -50,4 +50,4 @@ Quando a skill é iniciada na echoshow abre uma tela com um botão para abrir, o
 
 ## Instalação
 
-Siga as instruções em como criar a skill na página de documentação de [instalação](doc/pt_INSTALLATION.mdINSTALLATION.md).
+Siga as instruções em como criar a skill na página de documentação de [instalação](doc/pt_INSTALLATION.md).
