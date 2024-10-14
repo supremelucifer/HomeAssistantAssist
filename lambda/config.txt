@@ -6,7 +6,7 @@ home_assistant_api_timeout=30
 home_assistant_dashboard=lovelace
 home_assistant_kioskmode=False
 
-echo_screen_welcome_text=Bem-vindo à casa Vitucci!
+echo_screen_welcome_text=Bem-vindo ao Home Assistant!
 echo_screen_click_text=Clique no botão abaixo para abrir seu dashboard
 echo_screen_button_text=Abrir Home Assistant
 
