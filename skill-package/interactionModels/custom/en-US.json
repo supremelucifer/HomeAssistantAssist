@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "home mode",
+      "invocationName": "smart home",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",

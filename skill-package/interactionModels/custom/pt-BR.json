@@ -1,63 +1,42 @@
 {
   "interactionModel": {
-    "languageModel": {
-      "invocationName": "casa inteligente",
-      "intents": [
-        {
-          "name": "AMAZON.CancelIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.HelpIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.StopIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.NavigateHomeIntent",
-          "samples": []
-        },
-        {
-          "name": "GptQueryIntent",
-          "slots": [
-            {
-              "name": "query",
-              "type": "AMAZON.Person"
-            }
+      "languageModel": {
+          "invocationName": "casa inteligente",
+          "intents": [
+              {
+                  "name": "AMAZON.CancelIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.HelpIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.StopIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.NavigateHomeIntent",
+                  "samples": []
+              },
+              {
+                  "name": "GptQueryIntent",
+                  "slots": [
+                      {
+                          "name": "query",
+                          "type": "AMAZON.Person"
+                      }
+                  ],
+                  "samples": [
+                      "{query}"
+                  ]
+              },
+              {
+                  "name": "AMAZON.FallbackIntent",
+                  "samples": []
+              }
           ],
-          "samples": [
-            "{query}"
-          ]
-        },
-        {
-          "name": "AMAZON.FallbackIntent",
-          "samples": []
-        },
-        {
-          "name": "CloseSkillIntent",
-          "slots": [
-            {
-              "name": "exitPhrase",
-              "type": "AMAZON.SearchQuery"
-            }
-          ],
-          "samples": [
-            "obrigado",
-            "valeu",
-            "tchau",
-            "finalizar",
-            "encerrar",
-            "{exitPhrase} obrigado",
-            "{exitPhrase} valeu",
-            "{exitPhrase} tchau",
-            "{exitPhrase} finalizar",
-            "{exitPhrase} encerrar"
-          ]
-        }
-      ],
-      "types": []
-    }
+          "types": []
+      }
   }
 }

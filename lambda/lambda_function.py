@@ -4,6 +4,8 @@ import re
 import logging
 import json
 import requests
+import requests.exceptions
+import random
 import ask_sdk_core.utils as ask_utils
 
 from ask_sdk_core.skill_builder import SkillBuilder
@@ -40,7 +42,7 @@ home_assistant_url = config.get("home_assistant_url")
 home_assistant_token = config.get("home_assistant_token")
 home_assistant_agent_id = config.get("home_assistant_agent_id")
 home_assistant_language = config.get("home_assistant_language")
-home_assistant_api_timeout = int(config.get("home_assistant_api_timeout", 10))
+home_assistant_room_recognition = bool(config.get("home_assistant_room_recognition", False))
 home_assistant_dashboard = config.get("home_assistant_dashboard")
 home_assistant_kioskmode = bool(config.get("home_assistant_kioskmode", False))
 
@@ -56,6 +58,7 @@ alexa_speak_question = config.get("alexa_speak_question")
 alexa_speak_help = config.get("alexa_speak_help")
 alexa_speak_exit = config.get("alexa_speak_exit").strip().split(';')
 alexa_speak_error = config.get("alexa_speak_error")
+alexa_speak_timeout = config.get("alexa_speak_timeout")
 
 # Verificação de configuração
 if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not echo_screen_welcome_text or not echo_screen_button_text or not echo_screen_click_text or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
@@ -65,9 +68,6 @@ if not home_assistant_url or not home_assistant_token or not home_assistant_agen
 conversation_id = None
 # Definir a variável global fora da função de handler
 last_interaction_date = None
-
-# Variáveis globais para verificar se APL (interface)
-is_apl_supported = False
 
 class LaunchRequestHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
@@ -94,7 +94,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         device = handler_input.request_envelope.context.system.device
         is_apl_supported = device.supported_interfaces.alexa_presentation_apl is not None
         
-        logger.debug("Device: " + repr(device))
+        logger.debug("device: " + repr(device))
         
         # Renderiza o documento APL com o botão para abrir o HA (se o dispositivo tiver tela)
         if is_apl_supported:
@@ -112,13 +112,16 @@ class GptQueryIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("GptQueryIntent")(handler_input)
 
     def handle(self, handler_input):
-        # Obter o deviceId do dispositivo que executou a skill
-        device_id = handler_input.request_envelope.context.system.device.device_id
-        
         # Adicionar o prefixo com o nome do dispositivo ao comando
         query = handler_input.request_envelope.request.intent.slots["query"].value
         logger.info(f"Query received: {query}")
-        response = process_conversation(f"{query}. device_id: {device_id}")
+        
+        device_id = ""
+        if home_assistant_room_recognition:
+            # Obter o deviceId do dispositivo que executou a skill
+            device_id = ". device_id: " + handler_input.request_envelope.context.system.device.device_id
+        
+        response = process_conversation(f"{query}{device_id}")
         
         logger.info(f"Response generated: {response}")
         return handler_input.response_builder.speak(response).ask(alexa_speak_question).response
@@ -138,10 +141,12 @@ def process_conversation(query):
         if conversation_id:
             data["conversation_id"] = conversation_id
 
-        logger.debug(f"Requesting Home Assistant with data: {data}")
-        response = requests.post(home_assistant_url, headers=headers, json=data, timeout=home_assistant_api_timeout)
-        logger.debug(f"Home Assistant response status: {response.status_code}")
-        logger.debug(f"Home Assistant response data: {response.text}")
+        logger.debug(f"HA request data: {data}")
+        
+        response = requests.post(home_assistant_url, headers=headers, json=data, timeout=8)
+        
+        logger.debug(f"HA response status: {response.status_code}")
+        logger.debug(f"HA response data: {response.text}")
         
         response_data = response.json()
 
@@ -160,10 +165,15 @@ def process_conversation(query):
             error_message = response_data.get("message", "Erro desconhecido")
             logger.error(f"Erro ao processar a solicitação: {error_message}")
             return alexa_speak_error
+            
+    except requests.exceptions.Timeout as te:
+        # Tratamento para timeout
+        logger.error(f"Timeout ao se comunicar com o Home Assistant: \n {str(te)}", exc_info=True)
+        return alexa_speak_timeout
 
     except Exception as e:
         logger.error(f"Erro ao gerar resposta: {str(e)}", exc_info=True)
-        return f"Erro ao gerar resposta: {str(e)}"
+        return alexa_speak_error
 
 def replace_words(query):
     query = query.replace('4.º','quarto')
@@ -200,8 +210,29 @@ def load_template(filepath):
 
     return template
 
-def open_page():
-    return OpenUrlCommand(source = get_hadash_url())
+def open_page(handler_input):
+    # Device supported interfaces
+    is_apl_supported = handler_input.request_envelope.context.system.device.supported_interfaces.alexa_presentation_apl is not None
+        
+    logger.debug(f"APL supported: {is_apl_supported}")
+    
+    if is_apl_supported:
+        # Renderizar modelo vazio, necessário para o comando OpenURL
+        # https://amazon.developer.forums.answerhub.com/questions/220506/alexa-open-a-browser.html
+        handler_input.response_builder.add_directive(
+            RenderDocumentDirective(
+                token=home_assistant_token,
+                document=load_template("apl_empty.json")
+            )
+        )
+
+        # Open default page of dashboard
+        handler_input.response_builder.add_directive(
+            ExecuteCommandsDirective(
+                token=home_assistant_token,
+                commands=[OpenUrlCommand(source=get_hadash_url())]
+            )
+        ) 
 
 def get_hadash_url():
     global home_assistant_dashboard
@@ -210,7 +241,7 @@ def get_hadash_url():
             
     source = home_assistant_url.replace('api/conversation/process', home_assistant_dashboard)    
     if home_assistant_kioskmode:
-        source = source + '?kiosk'
+        source += '?kiosk'
         
     return source
 
@@ -227,25 +258,7 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("AMAZON.CancelIntent")(handler_input) or ask_utils.is_intent_name("AMAZON.StopIntent")(handler_input)
 
     def handle(self, handler_input):
-        global is_apl_supported
-        if is_apl_supported:
-            # Renderizar modelo vazio, necessário para o comando OpenURL
-            # https://amazon.developer.forums.answerhub.com/questions/220506/alexa-open-a-browser.html
-            handler_input.response_builder.add_directive(
-                RenderDocumentDirective(
-                    token=home_assistant_token,
-                    document=load_template("apl_empty.json")
-                )
-            )
-
-            # Open default page of dashboard
-            handler_input.response_builder.add_directive(
-                ExecuteCommandsDirective(
-                    token=home_assistant_token,
-                    commands=[open_page()]
-                )
-            )
-        
+        open_page(handler_input)
         speak_output = random.choice(alexa_speak_exit)
         return handler_input.response_builder.speak(speak_output).response
 
@@ -254,51 +267,8 @@ class SessionEndedRequestHandler(AbstractRequestHandler):
         return ask_utils.is_request_type("SessionEndedRequest")(handler_input)
 
     def handle(self, handler_input):
+        open_page(handler_input)
         return handler_input.response_builder.response
-
-class CloseSkillIntentHandler(AbstractRequestHandler):
-    def can_handle(self, handler_input):
-        return ask_utils.is_intent_name("CloseSkillIntent")(handler_input)
-
-    def handle(self, handler_input):
-        # Captura a utterance falada pelo usuário através do slot exitPhrase
-        user_utterance = handler_input.request_envelope.request.intent.slots.get("exitPhrase").value
-        
-        logger.info(f"Ativação de saída: {user_utterance}")
-        
-        # Chama a API de conversação do Home Assistant
-        response = process_conversation(f"{user_utterance}")
-        
-        # Valida se a resposta contém a palavra "erro"
-        if response and "erro" not in response.lower():
-            speak_output = response
-        else:
-            speak_output = alexa_speak_exit
-
-        # Retorna a resposta personalizada
-        handler_input.response_builder.speak(speak_output)
-        
-        global is_apl_supported
-        if is_apl_supported:
-            # Renderizar modelo vazio, necessário para o comando OpenURL
-            # https://amazon.developer.forums.answerhub.com/questions/220506/alexa-open-a-browser.html
-            handler_input.response_builder.add_directive(
-                RenderDocumentDirective(
-                    token=home_assistant_token,
-                    document=load_template("apl_empty.json")
-                )
-            )
-
-            # Open default page of dashboard
-            handler_input.response_builder.add_directive(
-                ExecuteCommandsDirective(
-                    token=home_assistant_token,
-                    commands=[open_page()]
-                )
-            )
-        
-        # Chama CancelOrStopIntentHandler para finalizar a skill
-        return handler_input.response_builder.set_should_end_session(True).response
 
 class CatchAllExceptionHandler(AbstractExceptionHandler):
     def can_handle(self, handler_input, exception):
@@ -315,7 +285,6 @@ sb.add_request_handler(GptQueryIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
-sb.add_request_handler(CloseSkillIntentHandler())
 sb.add_exception_handler(CatchAllExceptionHandler())
 
 lambda_handler = sb.lambda_handler()
