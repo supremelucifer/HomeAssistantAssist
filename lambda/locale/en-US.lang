@@ -1,0 +1,11 @@
+echo_screen_welcome_text=Welcome to Vitucci House!
+echo_screen_button_text=Open dashboard
+echo_screen_click_text=Click the button below to open your dashboard
+
+alexa_speak_welcome_message=Hi, I am Zé, the virtual assistant for Vitucci House! How can I help you?
+alexa_speak_next_message=I'm listening!
+alexa_speak_question=Anything else?
+alexa_speak_help=How can I assist you?
+alexa_speak_exit=Goodbye!;See you later;I'm here if you need me;Alright, I'm out;Take care;Later;Take it easy;I'm off, see ya.
+alexa_speak_error=Sorry, I couldn't process your request.
+alexa_speak_timeout=The Home Assistant took too long to respond. Please simplify the command and try again!

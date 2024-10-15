@@ -24,7 +24,7 @@ logger.setLevel(logging.DEBUG)
 def load_config():
     config = {}
     try:
-        with open("config.txt", encoding='utf-8') as f:
+        with open("config.cfg", encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if not line or '=' not in line:
@@ -47,18 +47,39 @@ home_assistant_dashboard = config.get("home_assistant_dashboard")
 home_assistant_kioskmode = bool(config.get("home_assistant_kioskmode", False))
 
 # Configurações da interface
-echo_screen_welcome_text = config.get("echo_screen_welcome_text")
-echo_screen_click_text = config.get("echo_screen_click_text")
-echo_screen_button_text = config.get("echo_screen_button_text")
+echo_screen_welcome_text = None
+echo_screen_click_text = None
+echo_screen_button_text = None
 
 # Configurações de respostas
-alexa_speak_welcome_message = config.get("alexa_speak_welcome_message")
-alexa_speak_next_message = config.get("alexa_speak_next_message")
-alexa_speak_question = config.get("alexa_speak_question")
-alexa_speak_help = config.get("alexa_speak_help")
-alexa_speak_exit = config.get("alexa_speak_exit").strip().split(';')
-alexa_speak_error = config.get("alexa_speak_error")
-alexa_speak_timeout = config.get("alexa_speak_timeout")
+alexa_speak_welcome_message = None
+alexa_speak_next_message = None
+alexa_speak_question = None
+alexa_speak_help = None
+alexa_speak_exit = None
+alexa_speak_error = None
+alexa_speak_timeout = None
+
+# Função para carregar os arquivos de localização de cada idioma
+def load_localization(locale):
+    file_name = f"locale/{locale}.lang"
+    if not os.path.exists(file_name):
+        file_name = "locale/en-US.lang"
+    
+    try:
+        with open(file_name, encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if not line or '=' not in line:
+                    continue
+                name, value = line.split('=', 1)
+                # Armazena diretamente nas variáveis globais
+                globals()[name] = value
+    except Exception as e:
+        logger.error(f"Erro ao carregar o arquivo de localização: {str(e)}")
+
+# Carrega o idioma padrão, que será alterado quando obter o idioma escolhido pelo usuário
+load_localization("en-US")
 
 # Verificação de configuração
 if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not echo_screen_welcome_text or not echo_screen_button_text or not echo_screen_click_text or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
@@ -74,6 +95,10 @@ class LaunchRequestHandler(AbstractRequestHandler):
         return ask_utils.is_request_type("LaunchRequest")(handler_input)
 
     def handle(self, handler_input):
+        # Obtém o idioma do usuário
+        locale = handler_input.request_envelope.request.locale
+        load_localization(locale)
+        
         global conversation_id, last_interaction_date
         #conversation_id = None  # Redefine o conversation_id para uma nova sessão sempre que iniciar
 
