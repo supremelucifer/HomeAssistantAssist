@@ -46,20 +46,6 @@ home_assistant_room_recognition = bool(config.get("home_assistant_room_recogniti
 home_assistant_dashboard = config.get("home_assistant_dashboard")
 home_assistant_kioskmode = bool(config.get("home_assistant_kioskmode", False))
 
-# Configurações da interface
-echo_screen_welcome_text = None
-echo_screen_click_text = None
-echo_screen_button_text = None
-
-# Configurações de respostas
-alexa_speak_welcome_message = None
-alexa_speak_next_message = None
-alexa_speak_question = None
-alexa_speak_help = None
-alexa_speak_exit = None
-alexa_speak_error = None
-alexa_speak_timeout = None
-
 # Função para carregar os arquivos de localização de cada idioma
 def load_localization(locale):
     file_name = f"locale/{locale}.lang"
@@ -82,7 +68,7 @@ def load_localization(locale):
 load_localization("en-US")
 
 # Verificação de configuração
-if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language or not echo_screen_welcome_text or not echo_screen_button_text or not echo_screen_click_text or not alexa_speak_welcome_message or not alexa_speak_next_message or not alexa_speak_question or not alexa_speak_help or not alexa_speak_exit or not alexa_speak_error:
+if not home_assistant_url or not home_assistant_token or not home_assistant_agent_id or not home_assistant_language:
     raise ValueError("Alguma configuração não feita corretamente!")
 
 # Variável global para armazenar o conversation_id
@@ -108,11 +94,11 @@ class LaunchRequestHandler(AbstractRequestHandler):
         # Carregar o arquivo de configuração
         current_date = now.strftime('%Y-%m-%d')
 
-        speak_output = alexa_speak_next_message
+        speak_output = globals().get("alexa_speak_next_message")
 
         if last_interaction_date != current_date:
             # Primeira execução do dia
-            speak_output = alexa_speak_welcome_message
+            speak_output = globals().get("alexa_speak_welcome_message")
             last_interaction_date = current_date
         
         # Device supported interfaces
@@ -141,6 +127,13 @@ class GptQueryIntentHandler(AbstractRequestHandler):
         query = handler_input.request_envelope.request.intent.slots["query"].value
         logger.info(f"Query received: {query}")
         
+        # Se o usuário der um comando para abrir o dashboard ou o home assistant, executa a ação
+        keywords = globals().get("keywords_to_open_dashboard").split(";")
+        if any(keyword.strip().lower() in query.lower() for keyword in keywords):
+            logger.info("Abrindo o dashboard do Home Assistant")
+            open_page(handler_input)
+            return handler_input.response_builder.speak(globals().get("alexa_speak_open_dashboard")).response
+        
         device_id = ""
         if home_assistant_room_recognition:
             # Obter o deviceId do dispositivo que executou a skill
@@ -149,7 +142,7 @@ class GptQueryIntentHandler(AbstractRequestHandler):
         response = process_conversation(f"{query}{device_id}")
         
         logger.info(f"Response generated: {response}")
-        return handler_input.response_builder.speak(response).ask(alexa_speak_question).response
+        return handler_input.response_builder.speak(response).ask(globals().get("alexa_speak_question")).response
 
 def process_conversation(query):
     global conversation_id
@@ -184,21 +177,21 @@ def process_conversation(query):
                 speech = response_data["response"]["speech"]["plain"]["speech"]
                 logger.error(f"Error code: {response_data['response']['data']['code']}")
             else:
-                speech = alexa_speak_error
+                speech = globals().get("alexa_speak_error")
             return improve_response(speech)
         else:
             error_message = response_data.get("message", "Erro desconhecido")
             logger.error(f"Erro ao processar a solicitação: {error_message}")
-            return alexa_speak_error
+            return globals().get("alexa_speak_error")
             
     except requests.exceptions.Timeout as te:
         # Tratamento para timeout
         logger.error(f"Timeout ao se comunicar com o Home Assistant: \n {str(te)}", exc_info=True)
-        return alexa_speak_timeout
+        return globals().get("alexa_speak_timeout")
 
     except Exception as e:
         logger.error(f"Erro ao gerar resposta: {str(e)}", exc_info=True)
-        return alexa_speak_error
+        return globals().get("alexa_speak_error")
 
 def replace_words(query):
     query = query.replace('4.º','quarto')
@@ -228,10 +221,10 @@ def load_template(filepath):
 
     if filepath == 'apl_openha.json':
         # Substituindo os valores dinâmicos do APL
-        template['mainTemplate']['items'][0]['items'][2]['text'] = echo_screen_welcome_text
-        template['mainTemplate']['items'][0]['items'][3]['text'] = echo_screen_click_text
+        template['mainTemplate']['items'][0]['items'][2]['text'] = globals().get("echo_screen_welcome_text")
+        template['mainTemplate']['items'][0]['items'][3]['text'] = globals().get("echo_screen_click_text")
         template['mainTemplate']['items'][0]['items'][4]['onPress']['source'] = get_hadash_url()
-        template['mainTemplate']['items'][0]['items'][4]['item']['text'] = echo_screen_button_text
+        template['mainTemplate']['items'][0]['items'][4]['item']['text'] = globals().get("echo_screen_button_text")
 
     return template
 
@@ -275,7 +268,7 @@ class HelpIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("AMAZON.HelpIntent")(handler_input)
 
     def handle(self, handler_input):
-        speak_output = alexa_speak_help
+        speak_output = globals().get("alexa_speak_help")
         return handler_input.response_builder.speak(speak_output).ask(speak_output).response
 
 class CancelOrStopIntentHandler(AbstractRequestHandler):
@@ -284,8 +277,8 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         open_page(handler_input)
-        speak_output = random.choice(alexa_speak_exit)
-        return handler_input.response_builder.speak(speak_output).response
+        speak_output = random.choice(globals().get("alexa_speak_exit").split(";"))
+        return handler_input.response_builder.speak(globals().get("speak_output")).response
 
 class SessionEndedRequestHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
@@ -301,7 +294,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
 
     def handle(self, handler_input, exception):
         logger.error(exception, exc_info=True)
-        speak_output = alexa_speak_error
+        speak_output = globals().get("alexa_speak_error")
         return handler_input.response_builder.speak(speak_output).ask(speak_output).response
 
 sb = SkillBuilder()

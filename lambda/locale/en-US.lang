@@ -9,3 +9,6 @@ alexa_speak_help=How can I assist you?
 alexa_speak_exit=Goodbye!;See you later;I'm here if you need me;Alright, I'm out;Take care;Later;Take it easy;I'm off, see ya.
 alexa_speak_error=Sorry, I couldn't process your request.
 alexa_speak_timeout=The Home Assistant took too long to respond. Please simplify the command and try again!
+alexa_speak_open_dashboard=Opening Home Assistant
+
+keywords_to_open_dashboard=open dashboard; open home assistant
