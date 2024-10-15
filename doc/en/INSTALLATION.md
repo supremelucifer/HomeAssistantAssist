@@ -56,22 +56,22 @@
 - Navigate to **Developer Tools**, go to the `Actions` tab, and follow the steps below: 
   1. Search for `conversation.process` in the action field and select it:
 
-    ![Action: Conversation: Process](images/pt_dev_action.png)
+    ![Action: Conversation: Process](images/dev_action.png)
 
   2. Enable the `Agent` field and select the desired conversation agent from the list:
 
-    ![Action: Agent](images/pt_dev_action_uimode.png)
+    ![Action: Agent](images/dev_action_uimode.png)
 
   3. Switch to `YAML MODE` and copy the ID from the `agent_id` field:
 
-    ![Action: Agent ID](images/pt_dev_action_yaml.png)
+    ![Action: Agent ID](images/dev_action_yaml.png)
   
 ### Publishing the Skill
 1. After deploying the code in the **Code** tab, return to the **Build** tab and click on **Build skill**.
 2. Then go to the **Alexa** app on your phone: `More` > `Skills & Games` > scroll to the bottom and click on `Your Skills` > `Dev.`, click on the skill you just created and **activate** it.
 
-    ![Dev skills](images/pt_alexa_dev_app.jpg)
-    ![Activate for use](images/pt_alexa_dev_app_activated.jpg)
+    ![Dev skills](images/alexa_dev_app.jpg)
+    ![Activate for use](images/alexa_dev_app_activated.jpg)
 3. Go back to the ``Alexa Developer Console`` and test the Skill in the **Test** tab to ensure the wake word and skill are working correctly.
 
 ### Enabling automatic area recognition (if you are using AI in Assist)
@@ -90,7 +90,8 @@
      Or you can get the same device ID from the "device: " log in the ``Alexa Developer Console`` under ``CloudWatch`` if you know how to access it.
   3. Take the entire identifier that appears after the device_id, e.g., `amzn1.ask.device.AMA***`, and add a new label to the **Echo device** via the `Alexa Media` Integration:
 
-    ![Echo device label with device ID received from the skill](images/pt_echo_device_label.jpg)
+    ![Echo device label with device ID received from the skill](images/echo_device_label.png)
+
   4. Update the **AI command prompt** of your choice with the following command:
      ```txt
      If asked to perform an action and no area is specified for the device, use the label received in the command after the string "device_id:" to find the entity associated with the label and use that entity's area to execute the command.

@@ -22,7 +22,7 @@ https://your-external-homeassistant-url.com/mushroom-mobile/0
 
 ## Installation
 
-For instructions how to set this skill up refer to the [installation](doc/en_INSTALLATION.md) page.
+For instructions how to set this skill up refer to the [installation](doc/en/INSTALLATION.md) or [update](doc/pt/UPDATE.md) page.
 
 ---------------------------------------------------------------------------------
 
@@ -48,4 +48,4 @@ https://sua-url-externa-homeassistant.com/mushroom-mobile/0
 
 ## Instalação
 
-Siga as instruções em como criar a skill na página de documentação de [instalação](doc/pt_INSTALLATION.md).
+Siga as instruções em como criar a skill na página de documentação de [instalação](doc/pt/INSTALLATION.md) ou [atualização](doc/pt/UPDATE.md).
