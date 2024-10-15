@@ -22,8 +22,8 @@
    - **Templates**: Clique em ``Import skill``
    - **Insert the address**: [https://github.com/fabianosan/HomeAssistantAssist.git](https://github.com/fabianosan/HomeAssistantAssist.git) e clique ``Import``
 2. Vá na aba **Code**
-3. Insira suas informações no arquivo `config.txt` conforme instruções abaixo:
-   - Abra o arquivo `config.txt` no diretório raiz do projeto (/Skill Code/lambda/).
+3. Insira suas informações no arquivo de configuração conforme instruções abaixo:
+   - Abra o arquivo `config.cfg` no diretório raiz do projeto (/Skill Code/lambda/).
    - Insira as seguintes informações:
      ```txt
      home_assistant_url=https://SUA-URL-EXTERNA-DO-HOME-ASSISTANT/api/conversation/process
@@ -45,16 +45,8 @@
 5. Salve as alterações.
 6. Clique em `Deploy`.
 
-### Configurando o ``Invocation Name``
-- O nome de invocação padrão configurado no código é "casa inteligente".
-- Para alterar o nome de invocação:
-  1. Vá para a aba **Build**.
-  2. Clique em `Invocations` e depois em `Skill Invocation Name`.
-  3. Insira o novo nome de invocação desejado e salve as alterações (teste se essa palavra de ativação pode ser usada na aba de **Test**).
-  4. Dê rebuild do modelo clicando `Build skill` se alterar.
-
 ### Obtendo o `home_assistant_agent_id` do Assist ou da IA generativa (se estiver utilizando uma):
-- Navegue até a **Ferramentas de Desenvolvedor**, vá na aba `Ações` e siga os passos abaixo: 
+- Com seu Home Assistant aberto, navegue até a **Ferramentas de Desenvolvedor**, vá na aba `Ações` e siga os passos abaixo: 
   1. Busque por `conversation.process` no campo de ações e selecione:
 
     ![Ação: Conversação: Processo](images/dev_action.png)
@@ -66,6 +58,27 @@
   1. Alterne para o `MODO YAML` e copie o ID que está no campo `agent_id`:
 
     ![Ação: Agente ID](images/dev_action_yaml.png)
+
+### Obtendo o `home_assistant_token` (Token de longa duração):
+- Com seu Home Assistant aberto, navegue até o seu perfil de usuário, no canto inferior esquerdo, clique e depois vá na aba `Segurança` na parte superior: 
+  1. No final da página, clique no botão `CRIAR TOKEN`:
+  2. Digite o nome que achar adeuqado, ex.: `Skill Home Assistant Assist` e clique em em `OK`:
+
+    ![Criar token](images/token.png)
+
+  1. Copie o token:
+
+    ![Token criado](images/token_created.png)
+
+  4. Coloque o token gerado no arquivo de configuração.
+
+### Configurando o ``Invocation Name``
+- O nome de invocação padrão configurado no código é "casa inteligente".
+- Para alterar o nome de invocação:
+  1. Vá para a aba **Build**.
+  2. Clique em `Invocations` e depois em `Skill Invocation Name`.
+  3. Insira o novo nome de invocação desejado e salve as alterações (teste se essa palavra de ativação pode ser usada na aba de **Test**).
+  4. Dê rebuild do modelo clicando `Build skill` se alterar.
   
 ### Publicando a Skill
 1. Após fazer o deploy do código na aba **Code**, volte para aba **Build** e clique em **Build skill**.

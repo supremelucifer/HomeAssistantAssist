@@ -22,8 +22,8 @@
    - **Templates**: Click on `Import skill`
    - **Insert the address**: [https://github.com/fabianosan/HomeAssistantAssist.git](https://github.com/fabianosan/HomeAssistantAssist.git) and click `Import`
 2. Go to the **Code** tab.
-3. Insert your information into the `config.txt` file as instructed below:
-   - Open the `config.txt` file in the project's root directory (/Skill Code/lambda/).
+3. Insert your information into the configuration file as instructed below:
+   - Open the `config.cfg` file in the project's root directory (/Skill Code/lambda/).
    - Insert the following information:
      ```txt
      home_assistant_url=https://YOUR-HOME-ASSISTANT-EXTERNAL-URL/api/conversation/process
@@ -44,14 +44,6 @@
 5. Save the changes.
 6. Click `Deploy`.
 
-### Setting the ``Invocation Name``
-- The default invocation name set in the code is "smart house."
-- To change the invocation name:
-  1. Go to the **Build** tab.
-  2. Click on `Invocations` and then on `Skill Invocation Name`.
-  3. Enter the desired new invocation name and save the changes (test if this wake word can be used in the **Test** tab).
-  4. Rebuild the model by clicking on `Build skill` if you make changes.
-
 ### Obtaining the `home_assistant_agent_id` from Assist or the generative AI (if you are using one):
 - Navigate to **Developer Tools**, go to the `Actions` tab, and follow the steps below: 
   1. Search for `conversation.process` in the action field and select it:
@@ -65,6 +57,27 @@
   3. Switch to `YAML MODE` and copy the ID from the `agent_id` field:
 
     ![Action: Agent ID](images/dev_action_yaml.png)
+
+### Obtaining the `home_assistant_token` (Long-Lived Token):
+- With your Home Assistant open, go to your user profile in the bottom-left corner, click on it, and then go to the `Security` tab at the top:
+  1. At the bottom of the page, click the `CREATE TOKEN` button:
+  2. Enter a name that you find appropriate, e.g., `Home Assistant Skill Assist` and click `OK`:
+
+    ![Create token](images/token.png)
+
+  1. Copy the token:
+
+    ![Token created](images/token_created.png)
+
+  4. Place the generated token in the configuration
+
+### Setting the ``Invocation Name``
+- The default invocation name set in the code is "smart house."
+- To change the invocation name:
+  1. Go to the **Build** tab.
+  2. Click on `Invocations` and then on `Skill Invocation Name`.
+  3. Enter the desired new invocation name and save the changes (test if this wake word can be used in the **Test** tab).
+  4. Rebuild the model by clicking on `Build skill` if you make changes.
   
 ### Publishing the Skill
 1. After deploying the code in the **Code** tab, return to the **Build** tab and click on **Build skill**.
