@@ -5,6 +5,7 @@
 - Enable the Home Assistant API for your user and obtain a long-lived access token.
 
 ### Creating the Alexa Skill
+
 1. Create a Skill in the [Alexa Developer Console](https://developer.amazon.com/alexa/console/ask) by following the steps below:
    - **Name your Skill**: Choose a name of your preference (e.g., Home Assistant Assist)
    - **Choose a primary locale**: Portuguese (BR)
@@ -30,7 +31,7 @@
      home_assistant_token=YOUR-HOME-ASSISTANT-TOKEN
      home_assistant_agent_id=YOUR-AGENT-ID
      home_assistant_language=pt-BR
-     home_assistant_api_timeout=30
+     home_assistant_room_recognition=False
      home_assistant_dashboard=YOUR-DASHBOARD-ID
      home_assistant_kioskmode=False
      ```
@@ -38,27 +39,30 @@
    - **home_assistant_token**: Long-lived access token of your Home Assistant.
    - **home_assistant_agent_id**: ID of the conversation agent configured in your Home Assistant.
    - **home_assistant_language**: Language to call the Home Assistant conversation API.
-   - **home_assistant_dashboard**: Path of the dashboard to display on Echo Show, e.g., lovelace.
-   - **home_assistant_kioskmode**: Enable kiosk mode with `True`, but only activate if you have the component installed in your Home Assistant.
-4. Still in the configuration file, adjust the phrases as you wish and translate them if necessary to the chosen language.
+   - **home_assistant_room_recognition**: Activate the device area recognition mode with `True` (only works with AI).
+   - **home_assistant_dashboard**: Path to the dashboard to display on Echo Show, e.g.: lovelace
+   - **home_assistant_kioskmode**: Enable kiosk mode with `True` (only activate this option if you have the component installed on your Home Assistant).
+4. If desired, change the default skill responses in the `/locale/en-US.lang` file or another supported language.
 5. Save the changes.
-6. Click `Deploy`.
+6. Click on `Deploy`.
 
 ### Obtaining the `home_assistant_agent_id` from Assist or the generative AI (if you are using one):
+
 - Navigate to **Developer Tools**, go to the `Actions` tab, and follow the steps below: 
-  1. Search for `conversation.process` in the action field and select it:
+1. Search for `conversation.process` in the action field and select it:
 
-    ![Action: Conversation: Process](images/dev_action.png)
+  ![Action: Conversation: Process](images/dev_action.png)
 
-  2. Enable the `Agent` field and select the desired conversation agent from the list:
+2. Enable the `Agent` field and select the desired conversation agent from the list:
 
-    ![Action: Agent](images/dev_action_uimode.png)
+  ![Action: Agent](images/dev_action_uimode.png)
 
-  3. Switch to `YAML MODE` and copy the ID from the `agent_id` field:
+3. Switch to `YAML MODE` and copy the ID from the `agent_id` field:
 
-    ![Action: Agent ID](images/dev_action_yaml.png)
+  ![Action: Agent ID](images/dev_action_yaml.png)
 
 ### Obtaining the `home_assistant_token` (Long-Lived Token):
+
 - With your Home Assistant open, go to your user profile in the bottom-left corner, click on it, and then go to the `Security` tab at the top:
   1. At the bottom of the page, click the `CREATE TOKEN` button:
   2. Enter a name that you find appropriate, e.g., `Home Assistant Skill Assist` and click `OK`:
@@ -72,6 +76,7 @@
   4. Place the generated token in the configuration
 
 ### Setting the ``Invocation Name``
+
 - The default invocation name set in the code is "smart house."
 - To change the invocation name:
   1. Go to the **Build** tab.
@@ -80,6 +85,7 @@
   4. Rebuild the model by clicking on `Build skill` if you make changes.
   
 ### Publishing the Skill
+
 1. After deploying the code in the **Code** tab, return to the **Build** tab and click on **Build skill**.
 2. Then go to the **Alexa** app on your phone: `More` > `Skills & Games` > scroll to the bottom and click on `Your Skills` > `Dev.`, click on the skill you just created and **activate** it.
 
@@ -87,35 +93,39 @@
     ![Activate for use](images/alexa_dev_app_activated.jpg)
 3. Go back to the ``Alexa Developer Console`` and test the Skill in the **Test** tab to ensure the wake word and skill are working correctly.
 
-### Enabling automatic area recognition (if you are using AI in Assist)
-- The skill sends the device ID (which is running the skill) in the conversation API call of the Home Assistant, so with a command to the AI and a label on the device, the AI can associate the received device ID with the device and locate in which area it is. To do this, follow the steps below:
-  1. Enable conversation API debug logging by adding the following configuration in the Home Assistant `configuration.yaml` file:
+### Enabling room recognition (works only with AI)
+- In this mode, the skill sends the device ID (from the `Echo` device running the skill) in the Home Assistant conversation API call. Then, with a command instruction for the AI and a label associated with the device, the AI can identify the devices in the same area where your `Alexa` is located. To enable it, follow the steps below:
+
+  ***Attention!***
+  ## This mode makes commands slower and requires more complex configurations:
+  1. Change the `home_assistant_room_recognition` setting to `True`, then redeploy and perform a new `Build Model` for the skill;
+  2. Enable conversation API debug logging by adding the following configuration to Home Assistant's `configuration.yaml`:
   - Insert the following information:
      ```txt
      logger:
        logs:
          homeassistant.components.conversation: debug
      ```
-  2. Restart Home Assistant, start the skill on the desired Echo device, and give any command. The log will appear as below:
+  3. Restart Home Assistant and start the skill from the desired Echo device. After activation, the log will show the instruction received by the skill as in the example below:
     ```txt
-    2024-10-10 11:04:56.798 DEBUG (MainThread) [homeassistant.components.conversation.agent_manager] Processing in pt-BR: turn on the living room light. device_id: amzn1.ask.device.AMA***
-    ```
-     Or you can get the same device ID from the "device: " log in the ``Alexa Developer Console`` under ``CloudWatch`` if you know how to access it.
-  3. Take the entire identifier that appears after the device_id, e.g., `amzn1.ask.device.AMA***`, and add a new label to the **Echo device** via the `Alexa Media` Integration:
-
+    2024-10-10 11:04:56.798 DEBUG (MainThread) [homeassistant.components.conversation.agent_manager] Processing in en-US: turn on the living room light. device_id: amzn1.ask.device.AMAXXXXXX
+     ```
+     You can also obtain the device_id from the log "device: " in the ``Alexa Developer Console`` in ``Cloud Watch`` if you know how to do it.
+  4. Take the entire identifier after the device_id, e.g., `amzn1.ask.device.AMAXXXXXX`, and add a new label to the **Echo device** using the `Alexa Media Player` Integration:
+  
     ![Echo device label with device ID received from the skill](images/echo_device_label.png)
-
-  4. Update the **AI command prompt** of your choice with the following command:
+    
+  5. Update your preferred **AI command prompt** with the following instruction:
      ```txt
-     If asked to perform an action and no area is specified for the device, use the label received in the command after the string "device_id:" to find the entity associated with the label and use that entity's area to execute the command.
+     If asked to perform an action and no area is specified for the device, capture the identifier contained after "device_id:" in the command, obtain the label with the same identifier, and associate the device requested in the command to the label area found.
      ```
 
 ### Good luck!
 Now you can use your Alexa skill to integrate and interact with Home Assistant via voice using Assist or open your favorite dashboard on the Echo Show.
 If you enjoyed it, remember to send a **Thank You** to the developers.
 
-<details><summary>Credits</summary>
+<details><summary>Special thanks</summary>
 <p>   
-For [rodrigoscoelho](https://github.com/rodrigoscoelho), who started the development of this skill.
+To [rodrigoscoelho](https://github.com/rodrigoscoelho), who started the development of this skill.
 </p>
 </details>

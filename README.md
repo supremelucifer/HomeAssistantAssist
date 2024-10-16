@@ -1,51 +1,104 @@
-# Alexa Skill that integrates Home Assistant Assist or your preferred Generative AI via the conversation API and also allows you to open your favorite dashboard on Echo Show
-* Use Home Assistant Assist or Generative AI on Alexa 😊
-* Open your favorite dashboard on Echo Show!
+# Home Assistant Assist Alexa Skill
 
-## How it works
+Alexa Skill that integrates Home Assistant Assist or your preferred Generative AI via the conversation API and also allows you to open your favorite dashboard on Echo Show
 
-The skill accesses your Home Assistant instance through your public address (yes, you need an external address) https://your-homeassistant.com and uses the Home Assistant conversation/process API. So, whatever you can do via Assist (the configured voice agent), you can also do through the skill, but using Alexa as the voice input and output. Cool, right?
+---
 
-```txt
-https://your-external-homeassistant-url.com/api/conversation/process
-```
+_Note: This project is still in a very early alpha phase, this means not all features are fully functional yet and
+features or usage can change significantly between releases._
 
-Here’s the translation to en-US:
+### Table of Contents
 
-Additionally, screen devices like Echo Show and similar allow you to open your preferred Home Assistant dashboard on the screen, either by clicking the **Open Home Assistant** button on the screen or when you end the use of the skill. In the example of the URL below, you need to configure the identifier: `mushroom-mobile` in the skill’s configuration file:
+1. [About](#about)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [Supported languages](#supported-languages)
 
-```txt
-https://your-external-homeassistant-url.com/mushroom-mobile/0
-```
+## About
 
-***Note: Unfortunately, Amazon Silk does not support full screen at the moment, but if you have kiosk mode installed, what is below the address bar will display in "full screen."***
+This is a Alexa skill model that integrates Home Assistant Assist or your preferred Generative AI through the conversation API and also allows you to open your favorite dashboard on Echo Show devices.
+
+## Features
+
+- Voice command:
+    - Interact with Home Assistant Assist
+    - Interact with [Open AI](https://www.home-assistant.io/integrations/openai_conversation) integration
+    - Interact with [Extended Open AI](https://github.com/jekalmin/extended_openai_conversation) integration
+    - Interact with [Google Generative AI](https://www.home-assistant.io/integrations/google_generative_ai_conversation) integration
+- Open Home Assistant dashboard:
+    - Say 'open home assistant' or 'open dashboard' to open your prefered dashboard in Home Assistant.
+    - Or clique on sceen to do the same.
+- Other:
+    - Multi-language support (see [Supported languages](#supported-languages))
+
+If you have a feature idea, open a issue to suggest your idea for implementation.
 
 ## Installation
 
 For instructions how to set this skill up refer to the [installation](doc/en/INSTALLATION.md) or [update](doc/en/UPDATE.md) page.
 
----------------------------------------------------------------------------------
+## Supported languages
 
-# Skill Alexa que integra o Home Assistant Assist ou a sua IA Generativa de preferência através da API de conversação e também permite abrir seu dashboard preferido na echoshow
-* Use o Home Assistant Assist ou a IA generativa na Alexa 😊
-* Abra seu dashboard preferido na echoshow!
+The skill has support for the following languages:
 
-## Como a skill funciona
+- Portuguese (Brazil)
+- Portuguese (Portugal)
+- English (United States)
+- English (England)
+- French
+- Italian
+- Spanish
 
-A skill acessa sua instância do Home Assistant através do seu endereço público (sim, você precisa de um endereço externo) ``https://seu-homeassistant.com`` e utiliza a API `conversation/process` do HA, então que você fazer via Assist (o agente de voz configurado) você consegue fazer pela skill, porém utilizando a Alexa como entrada e saída de voz, lega né?
+---
 
-```txt
-https://sua-url-externa-homeassistant.com/api/conversation/process
-```
 
-Além disso, dispositivos como tela, como echoshow e derivados permitem abrir o seu dashboard preferido do Home Assistant na tela, seja clicando no botão **Abrir Home Assistant** na tela ou na hora que você encerra o uso da skill. No exemplo da URL abaixo, é necessário configurar o identificador: `mushroom-mobile` no arquivo de configurações da skill:
 
-```txt
-https://sua-url-externa-homeassistant.com/mushroom-mobile/0
-```
+# Home Assistant Assist Alexa Skill
 
-***Nota: Infelizmente o Amazon Silk não suporta tela cheia no momento, mas se você tiver o kioskmode instalado, o que está abaixo da barra de endereços exibirá em "tela cheia".***
+Skill Alexa que integra o Home Assistant Assist ou sua IA Generativa preferida via a API de conversação e também permite abrir seu painel favorito no Echo Show
+
+---
+
+_Nota: Este projeto ainda está em uma fase alfa muito inicial, o que significa que nem todos os recursos estão totalmente funcionais e os recursos ou o uso podem mudar significativamente entre as versões._
+
+### Índice
+
+1. [Sobre](#sobre)
+2. [Recursos](#recursos)
+3. [Instalação](#instalação)
+4. [Idiomas suportados](#idiomas-suportados)
+
+## Sobre
+
+Este é um modelo de skill Alexa que integra o Home Assistant Assist ou sua IA Generativa preferida através da API de conversação e também permite abrir seu painel favorito em dispositivos Echo Show.
+
+## Recursos
+
+- Comando de voz:
+    - Interagir com o Home Assistant Assist
+    - Interagir com a integração [Open AI](https://www.home-assistant.io/integrations/openai_conversation)
+    - Interagir com a integração [Extended Open AI](https://github.com/jekalmin/extended_openai_conversation)
+    - Interagir com a integração [Google Generative AI](https://www.home-assistant.io/integrations/google_generative_ai_conversation)
+- Abrir painel do Home Assistant:
+    - Diga 'abrir home assistant' ou 'abrir painel' para abrir seu painel preferido no Home Assistant.
+    - Ou clique na tela para fazer o mesmo.
+- Outros:
+    - Suporte a vários idiomas (veja [Idiomas suportados](#idiomas-suportados))
+
+Se você tiver uma ideia de recurso, abra um issue para sugerir sua ideia para implementação.
 
 ## Instalação
 
-Siga as instruções em como criar a skill na página de documentação de [instalação](doc/pt/INSTALLATION.md) ou [atualização](doc/pt/UPDATE.md).
+Para obter instruções sobre como configurar essa skill, consulte a página de [instalação](doc/pt/INSTALLATION.md) ou [atualização](doc/pt/UPDATE.md).
+
+## Idiomas suportados
+
+A skill tem suporte para os seguintes idiomas:
+
+- Português (Brasil)
+- Português (Portugal)
+- Inglês (Estados Unidos)
+- Inglês (Inglaterra)
+- Francês
+- Italiano
+- Espanhol
