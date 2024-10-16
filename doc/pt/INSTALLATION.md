@@ -9,13 +9,6 @@
 1. Crie uma Skill na [Alexa Developer Console](https://developer.amazon.com/alexa/console/ask) seguindo os passos abaixo:
    - **Name your Skill**: Escolha um nome de sua preferência (Ex: Home Assistant Assist)
    - **Choose a primary locale**: Portuguese (BR)
-   - **Tipo de experiência**: Other > Custom > Alexa-hosted (Python)
-   - **Hosting region**: Pode deixar o padrão (US East (N. Virginia))
-   - **Templates**: Clique em Import Skill
-   - **Insira o endereço**: [https://github.com/fabianosan/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git](https://github.com/fabianosan/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git)
-
-   - **Name your Skill**: Escolha um nome de sua preferência (Ex: Home Assistant Assist)
-   - **Choose a primary locale**: Portuguese (BR)
    - **Choose a type of experience**: Other
    - **Choose a model**: Custom
    - **Hosting services**: Alexa hosted (Python)
