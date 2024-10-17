@@ -1,6 +1,9 @@
 
 ## INSTALAÇÃO
 
+_Nota: Antes de começar é importante destacar que uma skill (Alexa Hosted) possui um limite de 8 segundos para requisições externas e isso não pode ser alterado.
+Isso significa que sua instância do Home Assistant precisa responder em até 6 segundos para a skill funcionar corretamente, ou seja, IA's muito complexas, ou modelos lentos não vão funcionar com essa skill, importante testar o agente (Assist) que pretende utilizar antes, com comandos simples e complexos para garantir que o assistente retorna dentro do tempo esperado._
+
 ### Configurando o Home Assistant
 - Ative a API do Home Assistant para seu usuário e obtenha um token de acesso de longa duração.
 
