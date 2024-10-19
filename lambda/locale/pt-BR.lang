@@ -11,4 +11,4 @@ alexa_speak_error=Desculpe, não consegui processar sua solicitação.
 alexa_speak_timeout=O Home Assistant demorou muito para responder. Simplifique o comando e tente novamente!
 alexa_speak_open_dashboard=Abrindo o Home Assistant
 
-keywords_to_open_dashboard=abrir dashboard; abrir home assistant
+keywords_to_open_dashboard=abrir painel; abrir home assistant
