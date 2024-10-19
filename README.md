@@ -16,7 +16,7 @@ features or usage can change significantly between releases._
 
 ## About
 
-This is a Alexa skill model that integrates Home Assistant Assist or your preferred Generative AI through the conversation API and also allows you to open your favorite dashboard on Echo Show devices.
+This is a Alexa skill model that integrates Home Assistant Assist or your preferred Generative AI through the [conversation API](https://developers.home-assistant.io/docs/intent_conversation_api) and also allows you to open your favorite dashboard on Echo Show devices.
 
 _Note: It's important to highlight that a skill (Alexa Hosted) has an 8-second limit for external requests and this cannot be changed.
 This means that your Home Assistant instance needs to respond within 6 or 7 seconds for the skill to work correctly. In other words, very complex AIs or slow models will not work with this skill. It is important to test the agent (Assist) that you intend to use beforehand, with simple and complex commands to ensure that the assistant returns within the expected time._
@@ -75,7 +75,7 @@ _Nota: Este projeto ainda está em uma fase alfa muito inicial, o que significa 
 
 ## Sobre
 
-Este é um modelo de skill Alexa que integra o Home Assistant Assist ou sua IA Generativa preferida através da API de conversação e também permite abrir seu painel favorito em dispositivos Echo Show.
+Este é um modelo de skill Alexa que integra o Home Assistant Assist ou sua IA Generativa preferida através da [API de conversação](https://developers.home-assistant.io/docs/intent_conversation_api) e também permite abrir seu painel favorito em dispositivos Echo Show.
 
 _Observação: É importante destacar que uma skill (Alexa Hosted) possui um limite de 8 segundos para requisições externas e isso não pode ser alterado.
 Isso significa que sua instância do Home Assistant precisa responder em até 6 ou 7 segundos para a skill funcionar corretamente, ou seja, IA's muito complexas, ou modelos lentos não vão funcionar com essa skill, importante testar o agente (Assist) que pretende utilizar antes, com comandos simples e complexos para garantir que o assistente retorna dentro do tempo esperado._
