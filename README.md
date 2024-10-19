@@ -1,4 +1,4 @@
-# Home Assistant Assist Alexa Skill
+# Home Assistant Assist Alexa Skill (Alexa Hosted)
 
 Alexa Skill that integrates Home Assistant Assist or your preferred Generative AI via the conversation API and also allows you to open your favorite dashboard on Echo Show
 
@@ -53,7 +53,7 @@ The skill has support for the following languages:
 
 
 
-# Home Assistant Assist Alexa Skill
+# Home Assistant Assist Alexa Skill (Alexa Hosted)
 
 Skill Alexa que integra o Home Assistant Assist ou sua IA Generativa preferida via a API de conversação e também permite abrir seu painel favorito no Echo Show
 
