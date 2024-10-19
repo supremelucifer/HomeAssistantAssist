@@ -1,9 +1,6 @@
 
 ## INSTALLATION
 
-_Note: Before starting, it is important to highlight that a skill (Alexa Hosted) has an 8-second timeout limit for external requests and this cannot be changed.
-This means that your Home Assistant instance needs to respond within les than 6 seconds for the skill to work correctly. In other words, very complex AIs or slow models will not work well with this skill. It is important to test the agent (Assist) that you intend to use beforehand before, with simple and complex commands to understand if it responds in the desired time._
-
 ### Setting up Home Assistant
 - Enable the Home Assistant API for your user and obtain a long-lived access token.
 
