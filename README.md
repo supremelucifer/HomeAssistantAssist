@@ -1,110 +1,114 @@
-# Alexa Skill Model to integrate Home Assistant via Assist Conversation API
-Use Home Assistant Assist Conversation in Alexa 😊
+# Home Assistant Assist Alexa Skill (Alexa Hosted)
 
-## Instructions
+Alexa Skill that integrates Home Assistant Assist or your preferred Generative AI via the conversation API and also allows you to open your favorite dashboard on Echo Show
 
-### Home Assistant Setup
-- Create/Activate a Home Assistant API for your user and obtain a long-term access token.
+---
 
-### Creating the Alexa Skill
-1. Create an Alexa-hosted (Python) Skill in the Alexa Developer Console:
-   - **Name your Skill**: Choose a name of your preference (e.g., HomeAssist)
-   - **Choose a primary locale**: Portuguese (BR)
-   - **Type of experience**: Other > Custom > Alexa-hosted (Python)
-   - **Hosting region**: You can leave the default (US East (N. Virginia))
-   - **Templates**: Click on Import Skill
-   - **Insert the address**: [https://github.com/rodrigoscoelho/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git](https://github.com/rodrigoscoelho/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git)
+_Note: This project is still in a very early alpha phase, this means not all features are fully functional yet and
+features or usage can change significantly between releases._
 
-2. Go to the "Code" tab
-3. Enter your information in the `config.txt` file:
-   - Open the `config.txt` file in the root directory of the project (/Skill Code/lambda/).
-   - Insert the following information:
-     ```txt
-     home_assistant_url=https://YOUR-HOME-ASSISTANT-URL:8123/api/conversation/process
-     home_assistant_token=YOUR-HOME-ASSISTANT-TOKEN
-     home_assistant_agent_id=YOUR-AGENT-ID
-     ```
-   - **home_assistant_url**: Your Home Assistant conversation API URL (including the default port 8123).
-   - **home_assistant_token**: Your Home Assistant's long-term access token.
-   - **home_assistant_agent_id**: The conversation agent ID configured in your Home Assistant.
+### Table of Contents
 
-4. Save the changes.
+1. [About](#about)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [Supported languages](#supported-languages)
 
-### Configuring the Invocation Name
-- The default invocation name configured in the code is "home mode".
-- To change the invocation name:
-  1. Go to the "Build" tab in the Alexa Developer Console.
-  2. Click on "Invocations" and then on "Skill Invocation Name".
-  3. Enter the new desired invocation name and save the changes.
-  4. Rebuild the model (Build skill).
+## About
 
-### Obtaining the `home_assistant_agent_id`
-- The `agent_id` can be found in the debug assistant for your target conversation agent:
-  1. Go to **Settings** > **Voice assistants** > **OpenAI** (or the name you gave to the OpenAI assistant) > three dots menu > **Debug**.
-  2. The `agent_id` will be displayed in the debug section.
-  - See the following image for reference:
-    ![Debug Assistant](https://community-assets.home-assistant.io/original/4X/5/9/c/59cad339a22cb65c63996f58e28d412f73a6d40f.png)
+This is a Alexa skill model that integrates [Home Assistant Assist](https://www.home-assistant.io/voice_control) or your preferred Generative AI through the [conversation API](https://developers.home-assistant.io/docs/intent_conversation_api) and also allows you to open your favorite dashboard on Echo Show devices.
 
-### Deploying the Skill
-1. Build the Model and Deploy the Code in the "Deploy" tab.
-2. Test the Skill in the Alexa Developer Console to ensure it's working correctly.
+_Note: It's important to highlight that a skill (Alexa Hosted) has an 8-second limit for external requests and this cannot be changed.
+This means that your Home Assistant instance needs to respond within 6 or 7 seconds for the skill to work correctly. In other words, very complex AIs or slow models will not work with this skill. It is important to test the agent (Assist) that you intend to use beforehand, with simple and complex commands to ensure that the assistant returns within the expected time._
 
-### Good luck!
-Now you can use your Alexa Skill to integrate and interact with Home Assistant via the Assist Conversation API.
-If you liked it, remember to send a "Thank you" to the developer.
+For slower AIs or servers, try the [AWS Hosted](https://github.com/fabianosan/HomeAssistantAssistAWS) version.
+
+## Features
+
+- Voice command:
+    - Interact with Home Assistant Assist
+    - Interact with [Open AI](https://www.home-assistant.io/integrations/openai_conversation) integration
+    - Interact with [Extended Open AI](https://github.com/jekalmin/extended_openai_conversation) integration
+    - Interact with [Google Generative AI](https://www.home-assistant.io/integrations/google_generative_ai_conversation) integration
+- Open Home Assistant dashboard:
+    - Say 'open home assistant' or 'open dashboard' to open your prefered dashboard in Home Assistant.
+    - Or clique on sceen to do the same.
+- Other:
+    - Multi-language support (see [Supported languages](#supported-languages))
+
+If you have a feature idea, open a issue to suggest your idea for implementation.
+
+## Installation
+
+For instructions how to set this skill up refer to the [installation](doc/en/INSTALLATION.md) or [update](doc/en/UPDATE.md) page.
+
+## Supported languages
+
+The skill has support for the following languages:
+
+- Portuguese (Brazil)
+- Portuguese (Portugal)
+- English (United States)
+- English (England)
+- French
+- Italian
+- Spanish
+
+---
 
 
-# Modelo de Skill Alexa para integrar o Home Assistant via Assist Conversation API
-Use o Home Assistant Assist Conversation na Alexa 😊
 
-## Instruções
+# Home Assistant Assist Alexa Skill (Alexa Hosted)
 
-### Configuração do Home Assistant
-- Crie/Ative uma API Home Assistant para seu usuário e obtenha um token de acesso de longa duração.
+Skill Alexa que integra o Home Assistant Assist ou sua IA Generativa preferida via a API de conversação e também permite abrir seu painel favorito no Echo Show
 
-### Criação da Skill Alexa
-1. Crie uma Skill Alexa-hosted (Python) na Alexa Developer Console:
-   - **Name your Skill**: Escolha um nome de sua preferência (Ex: HomeAssist)
-   - **Choose a primary locale**: Portuguese (BR)
-   - **Tipo de experiência**: Other > Custom > Alexa-hosted (Python)
-   - **Hosting region**: Pode deixar o padrão (US East (N. Virginia))
-   - **Templates**: Clique em Import Skill
-   - **Insira o endereço**: [https://github.com/rodrigoscoelho/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git](https://github.com/rodrigoscoelho/skill-alexa-chatgpt4-assistpipeline-HomeAssistant.git)
+---
 
-2. Vá na aba "Code"
-3. Insira suas informações no arquivo `config.txt`:
-   - Abra o arquivo `config.txt` no diretório raiz do projeto (/Skill Code/lambda/).
-   - Insira as seguintes informações:
-     ```txt
-     home_assistant_url=https://YOUR-HOME-ASSISTANT-URL:8123/api/conversation/process
-     home_assistant_token=YOUR-HOME-ASSISTANT-TOKEN
-     home_assistant_agent_id=YOUR-AGENT-ID
-     ```
-   - **home_assistant_url**: URL da API de conversação do seu Home Assistant (incluindo a porta padrão 8123).
-   - **home_assistant_token**: Token de acesso de longa duração do seu Home Assistant.
-   - **home_assistant_agent_id**: ID do agente de conversação configurado no seu Home Assistant.
+_Nota: Este projeto ainda está em uma fase alfa muito inicial, o que significa que nem todos os recursos estão totalmente funcionais e os recursos ou o uso podem mudar significativamente entre as versões._
 
-4. Salve as alterações.
+### Índice
 
-### Configurando o Invocation Name
-- O nome de invocação padrão configurado no código é "modo casa".
-- Para alterar o nome de invocação:
-  1. Vá para a aba "Build" no Alexa Developer Console.
-  2. Clique em "Invocations" e depois em "Skill Invocation Name".
-  3. Insira o novo nome de invocação desejado e salve as alterações.
-  4. Rebuild o modelo (Build skill).
+1. [Sobre](#sobre)
+2. [Recursos](#recursos)
+3. [Instalação](#instalação)
+4. [Idiomas suportados](#idiomas-suportados)
 
-### Obtendo o `home_assistant_agent_id`
-- O `agent_id` pode ser encontrado no assistente de debug para o seu agente de conversação alvo: 
-  1. Acesse **Settings** > **Voice assistants** > **OpenAI** (ou o nome que você deu ao assistente OpenAI) > menu de três pontos > **Debug**.
-  2. O `agent_id` será exibido na seção de debug.
-  - Veja a imagem a seguir para referência:
-    ![Debug Assistant](https://community-assets.home-assistant.io/original/4X/5/9/c/59cad339a22cb65c63996f58e28d412f73a6d40f.png)
+## Sobre
 
-### Deploy da Skill
-1. Faça Build do Modelo e Deploy do Código na aba "Deploy".
-2. Teste a Skill no console da Alexa Developer para garantir que está funcionando corretamente.
+Este é um modelo de skill Alexa que integra o [Home Assistant Assist](https://www.home-assistant.io/voice_control) ou sua IA Generativa preferida através da [API de conversação](https://developers.home-assistant.io/docs/intent_conversation_api) e também permite abrir seu painel favorito em dispositivos Echo Show.
 
-### Boa sorte!
-Agora você pode usar sua Skill Alexa para integrar e interagir com o Home Assistant via Assist Conversation API.
-Se gostou, lembre-se de mandar um ""Obrigado"" para o desenvolvedor.
+_Observação: É importante destacar que uma skill (Alexa Hosted) possui um limite de 8 segundos para requisições externas e isso não pode ser alterado.
+Isso significa que sua instância do Home Assistant precisa responder em até 6 ou 7 segundos para a skill funcionar corretamente, ou seja, IA's muito complexas, ou modelos lentos não vão funcionar com essa skill, importante testar o agente (Assist) que pretende utilizar antes, com comandos simples e complexos para garantir que o assistente retorna dentro do tempo esperado._
+
+Para IA's ou servidores mais lentos, tente a versão [AWS Hosted](https://github.com/fabianosan/HomeAssistantAssistAWS).
+
+## Recursos
+
+- Comando de voz:
+    - Interagir com o Home Assistant Assist
+    - Interagir com a integração [Open AI](https://www.home-assistant.io/integrations/openai_conversation)
+    - Interagir com a integração [Extended Open AI](https://github.com/jekalmin/extended_openai_conversation)
+    - Interagir com a integração [Google Generative AI](https://www.home-assistant.io/integrations/google_generative_ai_conversation)
+- Abrir painel do Home Assistant:
+    - Diga 'abrir home assistant' ou 'abrir painel' para abrir seu painel preferido no Home Assistant.
+    - Ou clique na tela para fazer o mesmo.
+- Outros:
+    - Suporte a vários idiomas (veja [Idiomas suportados](#idiomas-suportados))
+
+Se você tiver uma ideia de recurso, abra um issue para sugerir sua ideia para implementação.
+
+## Instalação
+
+Para obter instruções sobre como configurar essa skill, consulte a página de [instalação](doc/pt/INSTALLATION.md) ou [atualização](doc/pt/UPDATE.md).
+
+## Idiomas suportados
+
+A skill tem suporte para os seguintes idiomas:
+
+- Português (Brasil)
+- Português (Portugal)
+- Inglês (Estados Unidos)
+- Inglês (Inglaterra)
+- Francês
+- Italiano
+- Espanhol

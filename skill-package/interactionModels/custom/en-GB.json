@@ -1,0 +1,61 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "smart home",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "GptQueryIntent",
+          "slots": [
+            {
+              "name": "query",
+              "type": "AMAZON.Person"
+            }
+          ],
+          "samples": [
+            "{query}"
+          ]
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "CloseSkillIntent",
+          "slots": [
+            {
+              "name": "exitPhrase",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "thank you",
+            "bye",
+            "end",
+            "close",
+            "{exitPhrase} thank you",
+            "{exitPhrase} bye",
+            "{exitPhrase} end",
+            "{exitPhrase} close"
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}
