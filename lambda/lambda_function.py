@@ -14,10 +14,7 @@ from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExc
 from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective, ExecuteCommandsDirective, OpenUrlCommand
 from datetime import datetime, timezone, timedelta
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-# Função para carregar configurações do arquivo
+# Carrega as configurações e localizações
 def load_config(file_name):
     
     if str(file_name).endswith(".lang") and not os.path.exists(file_name):
@@ -37,8 +34,12 @@ def load_config(file_name):
 
 load_config("config.cfg")
 
-# Carrega o idioma padrão, que será alterado quando obter o idioma escolhido pelo usuário
+# Carrega o idioma padrão, que será alterado quando obter o idioma escolhido pelo usuário quando a skill for iniciada
 load_config("locale/en-US.lang")
+
+# Configuração de log
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 # Verificação de configuração
 if not globals().get("home_assistant_url") or not globals().get("home_assistant_token"):
@@ -62,7 +63,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         
         # Carrega o idioma do usuário
         locale = handler_input.request_envelope.request.locale
-        load_config("locale/{}.lang".format(locale))
+        load_config(f"locale/{locale}.lang")
         
         #conversation_id = None # 'Descomente' se quiser que uma nova sessão de diálogo com a IA sempre que iniciar
 
@@ -135,6 +136,10 @@ def keywords_exec(query, handler_input):
 # Chama a API do Home Assistant e trata a resposta
 def process_conversation(query):
     global conversation_id
+    
+    home_assistant_agent_id = globals().get("home_assistant_agent_id", None)
+    home_assistant_language = globals().get("home_assistant_language", None)
+        
     try:
         headers = {
             "Authorization": "Bearer {}".format(globals().get("home_assistant_token")),
@@ -144,10 +149,10 @@ def process_conversation(query):
             "text": replace_words(query)
         }
         # Adding optional parameters to request
-        if globals().get("home_assistant_language", None):
-            data["language"] = globals().get("home_assistant_language")
-        if globals().get("home_assistant_agent_id", None):
-            data["agent_id"] = globals().get("home_assistant_agent_id")
+        if home_assistant_language:
+            data["language"] = home_assistant_language
+        if home_assistant_agent_id:
+            data["agent_id"] = home_assistant_agent_id
         if conversation_id:
             data["conversation_id"] = conversation_id
 
