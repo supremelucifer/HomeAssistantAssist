@@ -20,7 +20,7 @@
    - Open the `config.cfg` file in the project's root directory (/Skill Code/lambda/).
    - Insert the following information:
      ```txt
-     home_assistant_url=https://YOUR-HOME-ASSISTANT-EXTERNAL-URL/api/conversation/process
+     home_assistant_url=https://YOUR-HOME-ASSISTANT-EXTERNAL-URL
      home_assistant_token=YOUR-HOME-ASSISTANT-TOKEN
      home_assistant_agent_id=YOUR-AGENT-ID
      home_assistant_language=pt-BR
