@@ -161,7 +161,7 @@ def process_conversation(query):
         logger.debug(f"HA request url: {ha_api_url}")        
         logger.debug(f"HA request data: {data}")
         
-        response = requests.post(ha_api_url, headers=headers, json=data, timeout=8)
+        response = requests.post(ha_api_url, headers=headers, json=data, timeout=7)
         
         logger.debug(f"HA response status: {response.status_code}")
         logger.debug(f"HA response data: {response.text}")
