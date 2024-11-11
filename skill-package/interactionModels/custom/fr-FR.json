@@ -1,59 +1,42 @@
 {
   "interactionModel": {
-    "languageModel": {
-      "invocationName": "maison intelligente",
-      "intents": [
-        {
-          "name": "AMAZON.CancelIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.HelpIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.StopIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.NavigateHomeIntent",
-          "samples": []
-        },
-        {
-          "name": "GptQueryIntent",
-          "slots": [
-            {
-              "name": "query",
-              "type": "AMAZON.Person"
-            }
+      "languageModel": {
+          "invocationName": "maison intelligente",
+          "intents": [
+              {
+                  "name": "AMAZON.CancelIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.HelpIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.StopIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.NavigateHomeIntent",
+                  "samples": []
+              },
+              {
+                  "name": "GptQueryIntent",
+                  "slots": [
+                      {
+                          "name": "query",
+                          "type": "AMAZON.Person"
+                      }
+                  ],
+                  "samples": [
+                      "{query}"
+                  ]
+              },
+              {
+                  "name": "AMAZON.FallbackIntent",
+                  "samples": []
+              }
           ],
-          "samples": [
-            "{query}"
-          ]
-        },
-        {
-          "name": "AMAZON.FallbackIntent",
-          "samples": []
-        },
-        {
-          "name": "CloseSkillIntent",
-          "slots": [
-            {
-              "name": "exitPhrase",
-              "type": "AMAZON.SearchQuery"
-            }
-          ],
-          "samples": [
-            "merci",
-            "au revoir",
-            "fermer",
-            "{exitPhrase} merci",
-            "{exitPhrase} au revoir",
-            "{exitPhrase} fermer"
-          ]
-        }
-      ],
-      "types": []
-    }
+          "types": []
+      }
   }
 }
