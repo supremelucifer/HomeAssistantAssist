@@ -222,9 +222,10 @@ def replace_words(query):
 def improve_response(speech):
     # Função para melhorar a legibilidade da resposta
     speech = speech.replace(':\n\n', '').replace('\n\n', '. ').replace('\n', ',').replace('-', '').replace('_', ' ')
-    replacements = str.maketrans('ïöüÏÖÜ', 'iouIOU')
-    speech = speech.translate(replacements)
-    speech = re.sub(r'[^A-Za-z0-9çÇáàâãéèêíóôõúñÁÀÂÃÉÈÊÍÓÔÕÚÑ\s.,!?]', '', speech)
+    #replacements = str.maketrans('ïöüÏÖÜ', 'iouIOU')
+    #speech = speech.translate(replacements)
+    #speech = re.sub(r'[^A-Za-z0-9çÇáàâãéèêíóôõúñÁÀÂÃÉÈÊÍÓÔÕÚÑ\s.,!?]', '', speech)
+    speech = re.sub(r'[^A-Za-z0-9\s.,!?]', '', speech)
     return speech
 
 # Carrega o template do APL da tela inicial
