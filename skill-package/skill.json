@@ -190,6 +190,18 @@
             "Ligue o ar do escritório"
           ]
         },
+        "de-DE": {
+          "name": "Home Assistant Assist",
+          "summary": "Steuere dein Smart Home, indem du mit dem Home Assistant Assistenten interagierst.",
+          "description": "Diese Skill ermöglicht es dir, über die Konversations-API mit deiner Home Assistant Instanz zu interagieren.",
+          "smallIconUri": "file://assets/images/common_smallIconUri.png",
+          "largeIconUri": "file://assets/images/common_largeIconUri.png",
+          "examplePhrases": [
+            "Alexa, öffne Home Assistant",
+            "Schalte das Licht in der Küche aus",
+            "Schalte die Klimaanlage im Büro ein"
+          ]
+        },
         "pt-PT": {
           "name": "Home Assistant Assist",
           "summary": "Controle a sua casa inteligente interagindo com o Assist do Home Assistant.",
