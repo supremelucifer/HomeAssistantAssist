@@ -142,6 +142,18 @@
             "Turn on the office air conditioner"
           ]
         },
+        "en-CA": {
+          "name": "Home Assistant Assist",
+          "summary": "Control your smart home by interacting with the Home Assistant Assist.",
+          "description": "This skill allows you to interact with your Home Assistant Assist instance using the conversation API.",
+          "smallIconUri": "file://assets/images/common_smallIconUri.png",
+          "largeIconUri": "file://assets/images/common_largeIconUri.png",
+          "examplePhrases": [
+            "Alexa, open home assistant",
+            "Turn off the kitchen lights",
+            "Turn on the office air conditioner"
+          ]
+        },
         "es-ES": {
           "name": "Home Assistant Assist",
           "summary": "Controla tu hogar inteligente interactuando con el Asistente de Home Assistant.",

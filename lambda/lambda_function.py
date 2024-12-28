@@ -124,7 +124,7 @@ def keywords_exec(query, handler_input):
         open_page(handler_input)
         return handler_input.response_builder.speak(globals().get("alexa_speak_open_dashboard")).response
     
-    # Se o usuário der um comando para 'abrir dashboard' ou 'abrir home assistant', abre o dashboard e interrompe a skill
+    # Se o usuário der um comando de agradecimento o upara sair, interrompe a skill
     keywords_close_skill = globals().get("keywords_to_close_skill").split(";")
     if any(kc.strip().lower() in query.lower() for kc in keywords_close_skill):
         logger.info("Closing skill from keyword command")
