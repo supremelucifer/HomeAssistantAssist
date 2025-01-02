@@ -20,7 +20,7 @@
    - Open the `config.cfg` file in the project's root directory (/Skill Code/lambda/).
    - Insert the following information:
      ```txt
-     home_assistant_url=https://YOUR-HOME-ASSISTANT-EXTERNAL-URL/api/conversation/process
+     home_assistant_url=https://YOUR-HOME-ASSISTANT-EXTERNAL-URL
      home_assistant_token=YOUR-HOME-ASSISTANT-TOKEN
      home_assistant_agent_id=YOUR-AGENT-ID
      home_assistant_language=pt-BR
@@ -28,13 +28,13 @@
      home_assistant_dashboard=YOUR-DASHBOARD-ID
      home_assistant_kioskmode=False
      ```
-   - **home_assistant_url**: External URL of your Home Assistant conversation API.
-   - **home_assistant_token**: Long-lived access token of your Home Assistant.
-   - **home_assistant_agent_id**: ID of the conversation agent configured in your Home Assistant.
-   - **home_assistant_language**: Language to call the Home Assistant conversation API.
-   - **home_assistant_room_recognition**: Activate the device area recognition mode with `True` (only works with AI).
-   - **home_assistant_dashboard**: Path to the dashboard to display on Echo Show, e.g.: lovelace
-   - **home_assistant_kioskmode**: Enable kiosk mode with `True` (only activate this option if you have the component installed on your Home Assistant).
+   - **home_assistant_url**: External URL of your Home Assistant (root path).
+   - **home_assistant_token**: Long-lived access token for your Home Assistant.
+   - **(optional) home_assistant_agent_id**: Conversation agent ID configured in your Home Assistant; if not set, Assist will be used (Default).
+   - **(optional) home_assistant_language**: Language to call the Home Assistant conversation API. If not set, the agent's default language will be used.
+   - **(optional) home_assistant_room_recognition**: Enable device area recognition mode with `True`. **Attention**, it only works with AI; if you're using the default Assist, disable this option, as no command will work.
+   - **(optional) home_assistant_dashboard**: Dashboard path to display on Echo Show, e.g., `mushroom`; if not set, "lovelace" will be loaded.
+   - **(optional) home_assistant_kioskmode**: Enable kiosk mode with `True`. **Attention**, only activate this option if you have the component installed.
 4. If desired, change the default skill responses in the `/locale/en-US.lang` file or another supported language.
 5. Save the changes.
 6. Click on `Deploy`.

@@ -12,3 +12,4 @@ alexa_speak_timeout=O Home Assistant demorou muito para responder. Simplifique o
 alexa_speak_open_dashboard=Abrindo o Home Assistant
 
 keywords_to_open_dashboard=abrir painel; abrir home assistant
+keywords_to_close_skill=não;nada;só isso;obrigado

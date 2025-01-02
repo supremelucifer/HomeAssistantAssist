@@ -20,7 +20,7 @@
    - Abra o arquivo `config.cfg` no diretório raiz do projeto (/Skill Code/lambda/).
    - Insira as seguintes informações:
      ```txt
-     home_assistant_url=https://SUA-URL-EXTERNA-DO-HOME-ASSISTANT/api/conversation/process
+     home_assistant_url=https://SUA-URL-EXTERNA-DO-HOME-ASSISTANT
      home_assistant_token=SEU-TOKEN-DO-HOME-ASSISTANT
      home_assistant_agent_id=SEU-AGENT-ID
      home_assistant_language=pt-BR
@@ -28,13 +28,13 @@
      home_assistant_dashboard=ID-SEU-DASHBOARD
      home_assistant_kioskmode=False
      ```
-   - **home_assistant_url**: URL externa da API de conversação do seu Home Assistant.
+   - **home_assistant_url**: URL externa do seu Home Assistant (caminho raiz).
    - **home_assistant_token**: Token de acesso de longa duração do seu Home Assistant.
-   - **home_assistant_agent_id**: ID do agente de conversação configurado no seu Home Assistant.
-   - **home_assistant_language**: Idioma para chamar a API de conversação do Home Assistant.
-   - **home_assistant_room_recognition**: Ative o modo de identificação de área do dispositivo com `True` (só funciona com IA).
-   - **home_assistant_dashboard**: Caminho do dashboard para exibir na echoshow, ex.: lovelace
-   - **home_assistant_kioskmode**: Ative o modo quisque com `True` (só ative essa opção se tiver o componente instalado no seu Home Assistant).
+   - **(opcional) home_assistant_agent_id**: ID do agente de conversação configurado no seu Home Assistant, se não configurado, será utilizado o Assist (Padrão).
+   - **(opcional) home_assistant_language**: Idioma para chamar a API de conversação do Home Assistant. Se não configurado, será utilizado o padrão do agente definido.
+   - **(opcional) home_assistant_room_recognition**: Ative o modo de identificação de área do dispositivo com `True`. **Atenção**, só funciona com IA, se utilizar o Assist padrão, desative essa opção, pois nenhum comando irá funcionar.
+   - **(opcional) home_assistant_dashboard**: Caminho do dashboard para exibir na echoshow, ex.: `mushroom`, se não configurado, irá carregar o "lovelace"
+   - **(opcional) home_assistant_kioskmode**: Ative o modo quisque com `True`. **Atenção**, só ative essa opção se tiver o componente instalado.
 4. Se desejar, altere as respostas padrão da skill no arquivo `/locale/pt-BR.lang` ou outro idioma suportado).
 5. Salve as alterações.
 6. Clique em `Deploy`.

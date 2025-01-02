@@ -26,7 +26,7 @@ For slower AIs or servers, try the [AWS Hosted](https://github.com/fabianosan/Ho
 ## Features
 
 - Voice command:
-    - Interact with Home Assistant Assist
+    - Interact with [Home Assistant Assist](https://www.home-assistant.io/voice_control)
     - Interact with [Open AI](https://www.home-assistant.io/integrations/openai_conversation) integration
     - Interact with [Extended Open AI](https://github.com/jekalmin/extended_openai_conversation) integration
     - Interact with [Google Generative AI](https://www.home-assistant.io/integrations/google_generative_ai_conversation) integration
@@ -50,9 +50,13 @@ The skill has support for the following languages:
 - Portuguese (Portugal)
 - English (United States)
 - English (England)
+- English (Canada)
 - French
 - Italian
 - Spanish
+- German
+
+Note: If your language is not supported, please open an `issue` attaching your own translated version of the file [en-US.lang](lambda/locale/en-US.lang).
 
 ---
 
@@ -85,7 +89,7 @@ Para IA's ou servidores mais lentos, tente a versão [AWS Hosted](https://github
 ## Recursos
 
 - Comando de voz:
-    - Interagir com o Home Assistant Assist
+    - Interagir com o [Home Assistant Assist](https://www.home-assistant.io/voice_control)
     - Interagir com a integração [Open AI](https://www.home-assistant.io/integrations/openai_conversation)
     - Interagir com a integração [Extended Open AI](https://github.com/jekalmin/extended_openai_conversation)
     - Interagir com a integração [Google Generative AI](https://www.home-assistant.io/integrations/google_generative_ai_conversation)
@@ -109,6 +113,8 @@ A skill tem suporte para os seguintes idiomas:
 - Português (Portugal)
 - Inglês (Estados Unidos)
 - Inglês (Inglaterra)
+- Inglês (Canadá)
 - Francês
 - Italiano
 - Espanhol
+- Alemão
