@@ -227,6 +227,18 @@
           ]
         }
       },
+      "pl-PL": {
+        "name": "Home Assistant Assist",
+        "summary": "Steruj swoim inteligentnym domem, wchodząc w interakcję z Home Assistant Assist.",
+        "description": "Ta umiejętność umożliwia interakcję z instancją Home Assistant Assist za pomocą interfejsu API konwersacji.",
+        "smallIconUri": "file://assets/images/common_smallIconUri.png",
+        "largeIconUri": "file://assets/images/common_largeIconUri.png",
+        "examplePhrases": [
+          "Alexa, otwórz Home Assistant",
+          "Wyłącz światło w kuchni",
+          "Włącz klimatyzator w biurze"
+        ]
+      },
       "testingInstructions": "Sample Testing Instructions."
     }
   }

@@ -55,6 +55,7 @@ The skill has support for the following languages:
 - Italian
 - Spanish
 - German
+- Polish (Poland)
 
 Note: If your language is not supported, please open an `issue` attaching your own translated version of the file [en-US.lang](lambda/locale/en-US.lang).
 
@@ -118,3 +119,4 @@ A skill tem suporte para os seguintes idiomas:
 - Italiano
 - Espanhol
 - Alemão
+- Polonês (Polônia)
