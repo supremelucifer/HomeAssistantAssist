@@ -226,7 +226,7 @@ def improve_response(speech):
     #replacements = str.maketrans('ïöüÏÖÜ', 'iouIOU')
     #speech = speech.translate(replacements)
     
-    speech = re.sub(r'[^A-Za-z0-9çÇáàâãéèêíïóôõöúüñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÜÑ\s.,!?]', '', speech)
+    speech = re.sub(r'[^A-Za-z0-9çÇáàâãäéèêíïóôõöúüñÁÀÂÃÄÉÈÊÍÏÓÔÕÖÚÜÑ\sß.,!?]', '', speech)
     return speech
 
 # Carrega o template do APL da tela inicial
