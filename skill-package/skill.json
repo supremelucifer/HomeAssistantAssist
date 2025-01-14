@@ -239,6 +239,18 @@
           "Włącz klimatyzator w biurze"
         ]
       },
+      "ru-RU": {
+        "name": "Home Assistant Assist",
+        "summary": "Управляйте своим умным домом, взаимодействуя с Home Assistant Assist.",
+        "description": "Этот навык позволяет вам взаимодействовать с экземпляром Home Assistant Assist с помощью API-интерфейса для общения..",
+        "smallIconUri": "file://assets/images/common_smallIconUri.png",
+        "largeIconUri": "file://assets/images/common_largeIconUri.png",
+        "examplePhrases": [
+          "Alexa, открыть home assistant",
+          "Выключите свет на кухне.",
+          "Включите кондиционер в офисе."
+        ]
+      },
       "testingInstructions": "Sample Testing Instructions."
     }
   }
